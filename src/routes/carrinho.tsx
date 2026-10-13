@@ -6,6 +6,7 @@ import { Skeleton } from '@/components/ui/skeleton'
 import { nftListQuery } from '@/features/catalog/api'
 import { NftCarousel } from '@/features/catalog/components/nft-carousel'
 import { useCart } from '@/features/cart/api'
+import { CartChangeNotices } from '@/features/cart/components/cart-change-notices'
 import { CartItemCard, CartItemRow } from '@/features/cart/components/cart-items'
 import { CartSummary } from '@/features/cart/components/cart-summary'
 import { getApiErrorMessage } from '@/lib/api-error'
@@ -82,6 +83,8 @@ function CartPage() {
         <h1 id="carrinho-titulo" className="text-2xl font-bold max-lg:-mt-[3.25rem] max-lg:text-center lg:sr-only">
           Carrinho de NFTs
         </h1>
+
+        <CartChangeNotices />
 
         {isPending ? (
           <CartSkeleton />

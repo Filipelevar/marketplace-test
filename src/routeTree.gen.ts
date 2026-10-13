@@ -19,7 +19,6 @@ import { Route as AutenticadoFavoritosRouteImport } from './routes/_autenticado/
 import { Route as AutenticadoPagamentoRouteImport } from './routes/_autenticado/pagamento'
 import { Route as AutenticadoPerfilRouteImport } from './routes/_autenticado/perfil'
 import { Route as NftsNftIdRouteImport } from './routes/nfts/$nftId'
-import { Route as PocSocketRouteImport } from './routes/poc.socket'
 import { Route as AutenticadoPedidosOrderIdRouteImport } from './routes/_autenticado/pedidos/$orderId'
 
 const IndexRoute = IndexRouteImport.update({
@@ -71,11 +70,6 @@ const NftsNftIdRoute = NftsNftIdRouteImport.update({
   path: '/nfts/$nftId',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PocSocketRoute = PocSocketRouteImport.update({
-  id: '/poc/socket',
-  path: '/poc/socket',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AutenticadoPedidosOrderIdRoute =
   AutenticadoPedidosOrderIdRouteImport.update({
     id: '/pedidos/$orderId',
@@ -93,7 +87,6 @@ export interface FileRoutesByFullPath {
   '/pagamento': typeof AutenticadoPagamentoRoute
   '/perfil': typeof AutenticadoPerfilRoute
   '/nfts/$nftId': typeof NftsNftIdRoute
-  '/poc/socket': typeof PocSocketRoute
   '/pedidos/$orderId': typeof AutenticadoPedidosOrderIdRoute
 }
 export interface FileRoutesByTo {
@@ -106,7 +99,6 @@ export interface FileRoutesByTo {
   '/pagamento': typeof AutenticadoPagamentoRoute
   '/perfil': typeof AutenticadoPerfilRoute
   '/nfts/$nftId': typeof NftsNftIdRoute
-  '/poc/socket': typeof PocSocketRoute
   '/pedidos/$orderId': typeof AutenticadoPedidosOrderIdRoute
 }
 export interface FileRoutesById {
@@ -121,7 +113,6 @@ export interface FileRoutesById {
   '/_autenticado/pagamento': typeof AutenticadoPagamentoRoute
   '/_autenticado/perfil': typeof AutenticadoPerfilRoute
   '/nfts/$nftId': typeof NftsNftIdRoute
-  '/poc/socket': typeof PocSocketRoute
   '/_autenticado/pedidos/$orderId': typeof AutenticadoPedidosOrderIdRoute
 }
 export interface FileRouteTypes {
@@ -136,7 +127,6 @@ export interface FileRouteTypes {
     | '/pagamento'
     | '/perfil'
     | '/nfts/$nftId'
-    | '/poc/socket'
     | '/pedidos/$orderId'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -149,7 +139,6 @@ export interface FileRouteTypes {
     | '/pagamento'
     | '/perfil'
     | '/nfts/$nftId'
-    | '/poc/socket'
     | '/pedidos/$orderId'
   id:
     | '__root__'
@@ -163,7 +152,6 @@ export interface FileRouteTypes {
     | '/_autenticado/pagamento'
     | '/_autenticado/perfil'
     | '/nfts/$nftId'
-    | '/poc/socket'
     | '/_autenticado/pedidos/$orderId'
   fileRoutesById: FileRoutesById
 }
@@ -175,7 +163,6 @@ export interface RootRouteChildren {
   EmBreveRoute: typeof EmBreveRoute
   EntrarRoute: typeof EntrarRoute
   NftsNftIdRoute: typeof NftsNftIdRoute
-  PocSocketRoute: typeof PocSocketRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -250,13 +237,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NftsNftIdRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/poc/socket': {
-      id: '/poc/socket'
-      path: '/poc/socket'
-      fullPath: '/poc/socket'
-      preLoaderRoute: typeof PocSocketRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/_autenticado/pedidos/$orderId': {
       id: '/_autenticado/pedidos/$orderId'
       path: '/pedidos/$orderId'
@@ -293,7 +273,6 @@ const rootRouteChildren: RootRouteChildren = {
   EmBreveRoute: EmBreveRoute,
   EntrarRoute: EntrarRoute,
   NftsNftIdRoute: NftsNftIdRoute,
-  PocSocketRoute: PocSocketRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

@@ -16,6 +16,9 @@ type ReviewDialogProps = {
   submitting: boolean
   recovering: boolean
   error: string | null
+  stale: boolean
+  refreshing: boolean
+  onRefreshQuote: () => void
   onConfirm: () => void
 }
 
@@ -64,9 +67,12 @@ export function ReviewDialog({
   submitting,
   recovering,
   error,
+  stale,
+  refreshing,
+  onRefreshQuote,
   onConfirm,
 }: ReviewDialogProps) {
-  const blocked = quote.issues.length > 0
+  const blocked = quote.issues.length > 0 || stale
   const provider = WALLET_PROVIDERS.find((item) => item.slug === connection.provider)?.label ?? connection.provider
 
   return (
@@ -79,8 +85,20 @@ export function ReviewDialog({
           </DialogDescription>
         </DialogHeader>
 
-        {previousQuote && <PriceChanges previous={previousQuote} current={quote} />}
-        {blocked && (
+        {stale && (
+          <div role="alert" className="flex flex-col gap-3 rounded-md border border-amber/50 bg-amber/10 p-4 text-sm text-amber">
+            <p className="flex items-center gap-2 font-bold">
+              <AlertTriangle aria-hidden className="size-4" />
+              Os preços ou a disponibilidade mudaram enquanto você revisava
+            </p>
+            <p>Esta cotação está desatualizada. Atualize-a para ver os novos valores antes de confirmar.</p>
+            <Button type="button" variant="outline" onClick={onRefreshQuote} disabled={refreshing} className="w-fit">
+              {refreshing ? 'Atualizando...' : 'Atualizar cotação'}
+            </Button>
+          </div>
+        )}
+        {!stale && previousQuote && <PriceChanges previous={previousQuote} current={quote} />}
+        {quote.issues.length > 0 && (
           <div role="alert" className="rounded-md border border-coral/50 bg-coral/10 p-4 text-sm text-coral">
             {quote.issues.map((issue) => (
               <p key={issue.itemId}>

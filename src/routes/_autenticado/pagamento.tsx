@@ -24,6 +24,7 @@ import {
   type CheckoutAttempt,
 } from '@/features/checkout/storage'
 import { useConnectWallet, useDisconnectWallet, useWallets } from '@/features/wallets/api'
+import { onRealtimeNotice, type RealtimeNotice } from '@/features/realtime/bus'
 import { getApiError, getApiErrorMessage } from '@/lib/api-error'
 import { displayEth } from '@/lib/eth'
 
@@ -134,6 +135,7 @@ function CheckoutForm({ user, wallets, cartItems }: CheckoutFormProps) {
   const [attempt, setAttempt] = useState<CheckoutAttempt | null>(null)
   const [reviewOpen, setReviewOpen] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
+  const [quoteStale, setQuoteStale] = useState(false)
   const [recoveringAttempt, setRecoveringAttempt] = useState(() => {
     const pending = readAttempt()
     return pending?.status === 'submitted' && !pending.orderId
@@ -195,6 +197,26 @@ function CheckoutForm({ user, wallets, cartItems }: CheckoutFormProps) {
     })
   }
 
+  const markQuoteStaleIfAffected = useEffectEvent((notice: RealtimeNotice) => {
+    if (notice.type === 'nft-updated' && quote?.items.some((item) => item.nftId === notice.nftId)) setQuoteStale(true)
+  })
+
+  useEffect(() => onRealtimeNotice((notice) => markQuoteStaleIfAffected(notice)), [])
+
+  function refreshQuote() {
+    createQuote.mutate(undefined, {
+      onSuccess: (nextQuote) => {
+        setPreviousQuote(quote)
+        setQuote(nextQuote)
+        setQuoteStale(false)
+        if (attempt) {
+          rememberAttempt({ ...attempt, quoteId: nextQuote.id, idempotencyKey: newIdempotencyKey(), status: 'ready' })
+        }
+      },
+      onError: (error) => setSubmitError(getApiErrorMessage(error)),
+    })
+  }
+
   const recoverPreviousAttempt = useEffectEvent(() => {
     const pending = readAttempt()
     if (pending?.orderId) {
@@ -248,6 +270,7 @@ function CheckoutForm({ user, wallets, cartItems }: CheckoutFormProps) {
       onSuccess: (nextQuote) => {
         setPreviousQuote(null)
         setQuote(nextQuote)
+        setQuoteStale(false)
         setSubmitError(null)
         rememberAttempt({
           idempotencyKey: newIdempotencyKey(),
@@ -372,6 +395,9 @@ function CheckoutForm({ user, wallets, cartItems }: CheckoutFormProps) {
           submitting={placeOrder.isPending}
           recovering={recovering}
           error={submitError}
+          stale={quoteStale}
+          refreshing={createQuote.isPending}
+          onRefreshQuote={refreshQuote}
           onConfirm={() => submitAttempt(attempt)}
         />
       )}

@@ -5,11 +5,9 @@ import type { NftSummary } from '@/contracts/nft'
 import { getApiErrorMessage } from '@/lib/api-error'
 import { http } from '@/lib/http'
 import { useSession } from '@/features/auth/api'
+import { favoriteKeys } from './keys'
 
-export const favoriteKeys = {
-  all: ['favorites'] as const,
-  user: (userId: string) => [...favoriteKeys.all, userId] as const,
-}
+export { favoriteKeys }
 
 export function favoritesQuery(userId: string) {
   return queryOptions({

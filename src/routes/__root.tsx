@@ -6,6 +6,7 @@ import { SiteFooter } from '@/components/layout/site-footer'
 import { SiteHeader } from '@/components/layout/site-header'
 import { Button } from '@/components/ui/button'
 import { SessionWatcher } from '@/features/auth/components/session-watcher'
+import { RealtimeSync } from '@/features/realtime/realtime-sync'
 
 export const Route = createRootRouteWithContext<RouterContext>()({
   head: () => ({
@@ -38,6 +39,7 @@ function RootLayout() {
       <SiteFooter />
       <MobileTabBar />
       <SessionWatcher />
+      <RealtimeSync />
       <Toaster theme="dark" position="top-center" closeButton mobileOffset={{ top: 76 }} />
     </>
   )

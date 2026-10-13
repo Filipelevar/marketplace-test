@@ -5,16 +5,14 @@ import { http } from '@/lib/http'
 import { useSession } from '@/features/auth/api'
 import { cartKeys } from '@/features/cart/keys'
 import { nftKeys } from '@/features/catalog/api'
+import { useRealtimeStatus } from '@/features/realtime/status'
+import { orderKeys } from './keys'
 import type { CheckoutAttempt } from './storage'
 
 const ORDER_POLL_INTERVAL_MS = 1500
 const MAX_SUBMIT_RETRIES = 3
 
-export const orderKeys = {
-  all: ['orders'] as const,
-  user: (userId: string) => [...orderKeys.all, userId] as const,
-  detail: (userId: string, orderId: string) => [...orderKeys.user(userId), orderId] as const,
-}
+export { orderKeys }
 
 export function isRecoverableNetworkError(error: unknown) {
   return isAxiosError(error) && (!error.response || error.code === 'ECONNABORTED')
@@ -45,13 +43,18 @@ export function orderQuery(userId: string, orderId: string) {
   return queryOptions({
     queryKey: orderKeys.detail(userId, orderId),
     queryFn: async ({ signal }) => (await http.get<Order>(`/orders/${encodeURIComponent(orderId)}`, { signal })).data,
-    refetchInterval: (query) => (query.state.data && !isTerminal(query.state.data.status) ? ORDER_POLL_INTERVAL_MS : false),
   })
 }
 
 export function useOrder(orderId: string) {
   const session = useSession()
-  return useQuery({ ...orderQuery(session.user?.id ?? '', orderId), enabled: session.status === 'authenticated' })
+  const realtime = useRealtimeStatus()
+  return useQuery({
+    ...orderQuery(session.user?.id ?? '', orderId),
+    enabled: session.status === 'authenticated',
+    refetchInterval: (query) =>
+      query.state.data && !isTerminal(query.state.data.status) && realtime !== 'connected' ? ORDER_POLL_INTERVAL_MS : false,
+  })
 }
 
 export function useSettleOrderSideEffects() {

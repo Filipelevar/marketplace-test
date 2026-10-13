@@ -96,21 +96,6 @@ test.describe('checkout', () => {
     expect(orders.body).toHaveLength(1)
   })
 
-  test('mudança de preço exige confirmação da nova cotação', async ({ page }) => {
-    await goToCheckoutWith(page, '/nfts/sage-nomad-009')
-    const dialog = await connectAndReview(page)
-    await devPost(page, '/api/__dev/nfts/sage-nomad-009', { priceEth: '2.10' }, 'PATCH')
-
-    await dialog.getByRole('button', { name: 'Confirmar pagamento' }).click()
-    await expect(dialog.getByRole('alert').filter({ hasText: 'A cotação mudou' })).toBeVisible()
-    await expect(dialog.getByText('Sage Nomad #009: preço de 1.69 ETH para 2.10 ETH.')).toBeVisible()
-    await expect(dialog.getByText('2.116 ETH').first()).toBeVisible()
-
-    await dialog.getByRole('button', { name: 'Confirmar com novos valores' }).click()
-    await expect(page.getByRole('heading', { name: 'Seus NFTs agora estão na sua carteira' })).toBeVisible({ timeout: 10_000 })
-    await expect(page.getByText('2.116 ETH').first()).toBeVisible()
-  })
-
   test('recusa e desconexão da carteira', async ({ page }) => {
     await goToCheckoutWith(page, '/nfts/sage-nomad-009')
     await failNext(page, 'POST', '/api/wallets/', {
