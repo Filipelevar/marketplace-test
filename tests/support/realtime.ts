@@ -1,4 +1,4 @@
-import type { Page } from '@playwright/test'
+import { expect, type Page } from '@playwright/test'
 
 export async function patchNft(page: Page, nftId: string, patch: { priceEth?: string; editionAvailability?: Record<string, number> }) {
   await page.evaluate(
@@ -40,4 +40,8 @@ export function nftEvent(nftId: string, version: number, priceEth: string, avail
     occurredAt: new Date().toISOString(),
     data: { priceEth, available, editions: [] },
   }
+}
+
+export async function waitForSocket(page: Page) {
+  await expect.poll(() => emitSocketEvent(page, 'kurio.ping', {}), { timeout: 10_000 }).toBeGreaterThan(0)
 }

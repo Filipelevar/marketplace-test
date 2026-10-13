@@ -28,10 +28,8 @@ export function RealtimeSync() {
 
       socket.on('connect', () => {
         setRealtimeStatus('connected')
-        if (connectedBefore) {
-          reconcileWithRest(queryClient)
-          publishRealtimeNotice({ type: 'reconciled' })
-        }
+        reconcileWithRest(queryClient)
+        if (connectedBefore) publishRealtimeNotice({ type: 'reconciled' })
         connectedBefore = true
       })
 

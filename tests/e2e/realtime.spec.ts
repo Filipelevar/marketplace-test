@@ -1,7 +1,7 @@
 import { expect, test, type Page } from '@playwright/test'
 import { signIn, signOut, USERS } from '../support/auth.ts'
 import { useScenario } from '../support/mock-scenario.ts'
-import { dropSocket, emitSocketEvent, nftEvent, patchNft } from '../support/realtime.ts'
+import { dropSocket, emitSocketEvent, nftEvent, patchNft, waitForSocket } from '../support/realtime.ts'
 
 const cardPrice = (page: Page, name: string) =>
   page.locator('#catalogo article').filter({ hasText: name }).locator('p').first()
@@ -13,7 +13,10 @@ async function buyNow(page: Page, nftPath: string) {
   await page.getByRole('button', { name: 'Conectar carteira' }).click()
   await expect(page.getByText(/Conectada via MetaMask/)).toBeVisible()
   await page.getByRole('button', { name: 'Confirmar compra' }).click()
-  return page.getByRole('dialog', { name: 'Revisar pedido' })
+  const dialog = page.getByRole('dialog', { name: 'Revisar pedido' })
+  await expect(dialog).toBeVisible()
+  await waitForSocket(page)
+  return dialog
 }
 
 test.describe('tempo real', () => {
@@ -24,17 +27,20 @@ test.describe('tempo real', () => {
   test('nft.updated atualiza catálogo, detalhe e carrinho sem recarregar', async ({ page }) => {
     await page.goto('/')
     await expect(cardPrice(page, 'Sage Nomad #009')).toContainText('1.69 ETH')
+    await waitForSocket(page)
     await patchNft(page, 'sage-nomad-009', { priceEth: '2.10' })
     await expect(cardPrice(page, 'Sage Nomad #009')).toContainText('2.10 ETH')
 
     await page.goto('/nfts/sage-nomad-009?edition=1-10')
     await expect(page.getByText('Restam apenas 3 unidades desta edição.').first()).toBeVisible()
+    await waitForSocket(page)
     await patchNft(page, 'sage-nomad-009', { editionAvailability: { '1-10': 1 } })
     await expect(page.getByText('Restam apenas 1 unidade desta edição.').first()).toBeVisible()
 
     await page.getByRole('button', { name: /^(COMPRAR|Comprar NFT)$/ }).filter({ visible: true }).first().click()
     await expect(page).toHaveURL(/\/carrinho$/)
     await expect(page.getByRole('group', { name: 'Quantidade de Sage Nomad #009' }).filter({ visible: true })).toBeVisible()
+    await waitForSocket(page)
     await patchNft(page, 'sage-nomad-009', { priceEth: '2.50' })
     const notices = page.getByRole('region', { name: 'Alterações no carrinho' })
     await expect(notices).toContainText('preço atualizado de 2.10 ETH para 2.50 ETH')
@@ -44,6 +50,7 @@ test.describe('tempo real', () => {
   test('eventos duplicados ou antigos não regridem o estado', async ({ page }) => {
     await page.goto('/')
     await expect(cardPrice(page, 'Sage Nomad #009')).toContainText('1.69 ETH')
+    await waitForSocket(page)
 
     const fresh = nftEvent('sage-nomad-009', 5, '3.00')
     expect(await emitSocketEvent(page, 'nft.updated', fresh)).toBe(1)

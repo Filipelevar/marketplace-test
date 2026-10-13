@@ -95,6 +95,6 @@ export function applyOrderUpdate(queryClient: QueryClient, userId: string, event
 
 export function reconcileWithRest(queryClient: QueryClient) {
   for (const queryKey of [nftKeys.all, cartKeys.all, orderKeys.all, favoriteKeys.all]) {
-    void queryClient.invalidateQueries({ queryKey, refetchType: 'active' })
+    void queryClient.invalidateQueries({ queryKey, refetchType: 'active' }, { cancelRefetch: false })
   }
 }
