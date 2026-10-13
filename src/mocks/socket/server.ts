@@ -8,15 +8,12 @@ type MockSocketConnection = {
   close: () => void
 }
 
-// The binding advertises pingInterval=25000 but never pings; socket.io-client drops the
-// connection after pingInterval + pingTimeout without one, so the mock sends the heartbeat
 const HEARTBEAT_INTERVAL_MS = 25_000
 const ENGINE_IO_PING = '2'
 const SOCKET_IO_CONNECT_PREFIX = '40'
 
 const connections = new Map<string, MockSocketConnection>()
 
-// MSW strips the "/socket.io/" path before matching, so the link targets the server origin
 const socketLink = ws.link(import.meta.env.VITE_SOCKET_URL)
 
 function readAuthToken(rawPacket: string): string | null {
@@ -32,8 +29,6 @@ function handleConnection(connection: WebSocketHandlerConnection) {
   const io = toSocketIo(connection)
   const heartbeat = setInterval(() => client.send(ENGINE_IO_PING), HEARTBEAT_INTERVAL_MS)
 
-  // The binding acknowledges the namespace on its own and ignores the client's CONNECT
-  // packet, so the auth payload is read from the raw frame
   client.addEventListener('message', (event) => {
     if (typeof event.data !== 'string' || !event.data.startsWith(SOCKET_IO_CONNECT_PREFIX)) return
     connections.set(client.id, {

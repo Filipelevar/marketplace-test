@@ -1,4 +1,3 @@
-# Logs
 logs
 *.log
 npm-debug.log*
@@ -12,7 +11,6 @@ dist
 dist-ssr
 *.local
 
-# Editor directories and files
 .vscode/*
 !.vscode/extensions.json
 .idea
@@ -23,13 +21,11 @@ dist-ssr
 *.sln
 *.sw?
 
-# Playwright
 test-results/
 playwright-report/
 blob-report/
 playwright/.cache/
 
-# Yarn 4 (node-modules linker)
 .yarn/*
 !.yarn/releases
 !.yarn/plugins

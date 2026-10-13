@@ -8,7 +8,6 @@ import './index.css'
 
 async function enableMocking() {
   if (import.meta.env.VITE_ENABLE_MOCKS !== 'true') return
-  // Dynamic import keeps MSW out of the main bundle
   const { startMockWorker } = await import('@/mocks/browser')
   await startMockWorker()
 }

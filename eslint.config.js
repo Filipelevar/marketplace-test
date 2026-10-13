@@ -20,8 +20,6 @@ export default defineConfig([
     },
   },
   {
-    // shadcn/ui components export variants next to the component;
-    // route files export `Route`, and the router plugin handles their HMR
     files: ['src/components/ui/**/*.tsx', 'src/routes/**/*.tsx'],
     rules: {
       'react-refresh/only-export-components': 'off',

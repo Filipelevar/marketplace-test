@@ -51,7 +51,6 @@ test('heartbeat keeps the connection alive past the ping timeout', async ({ page
   await page.goto('/poc/socket?token=user-a')
   await expect(page.getByTestId('connect-count')).toHaveText('1')
 
-  // pingInterval (25s) + pingTimeout (5s) = 30s without a ping would drop the client
   await page.clock.runFor(120_000)
 
   await expect(page.getByTestId('status')).toHaveText('connected')

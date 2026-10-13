@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { createFileRoute } from '@tanstack/react-router'
 import { createSocket } from '@/lib/socket'
 
-// Temporary proof of concept for the Socket.IO mock transport. Removed once real features use the socket.
 export const Route = createFileRoute('/poc/socket')({
   validateSearch: (search: Record<string, unknown>) => ({
     token: typeof search.token === 'string' ? search.token : undefined,

@@ -1,7 +1,6 @@
 import { defineConfig, devices } from '@playwright/test'
 
 const PORT = 5173
-// PW_BASE_URL runs the suite against an already running target (vite preview, deployed demo)
 const EXTERNAL_BASE_URL = process.env.PW_BASE_URL
 const BASE_URL = EXTERNAL_BASE_URL ?? `http://localhost:${PORT}`
 

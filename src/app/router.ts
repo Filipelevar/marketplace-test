@@ -11,7 +11,6 @@ export function createAppRouter(queryClient: QueryClient) {
     routeTree,
     context: { queryClient },
     defaultPreload: 'intent',
-    // TanStack Query owns caching; the router always delegates to it
     defaultPreloadStaleTime: 0,
     scrollRestoration: true,
   })
