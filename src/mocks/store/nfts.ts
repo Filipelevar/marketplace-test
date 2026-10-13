@@ -1,7 +1,29 @@
 import type { CatalogSearch, NftDetail, NftSummary } from '@/contracts/nft'
 import { compareEth, formatEth, parseEth } from '@/lib/eth'
 import type { NftRecord } from '@/mocks/fixtures/nfts'
-import { getDb } from './db'
+import { commit, getDb } from './db'
+import { notifyNftChanged } from './events'
+
+export type NftPatch = {
+  priceEth?: string
+  editionAvailability?: Record<string, number>
+}
+
+export function updateNft(id: string, patch: NftPatch): NftRecord | null {
+  const nft = getDb().nfts[id]
+  if (!nft) return null
+  commit(() => {
+    if (patch.priceEth) nft.priceEth = patch.priceEth
+    for (const [editionId, available] of Object.entries(patch.editionAvailability ?? {})) {
+      const edition = nft.editions.find((candidate) => candidate.id === editionId)
+      if (edition) edition.available = Math.max(0, Math.floor(available))
+    }
+    nft.available = nft.editions.reduce((total, edition) => total + edition.available, 0)
+    nft.version += 1
+  })
+  notifyNftChanged(nft)
+  return nft
+}
 
 export function toSummary(record: NftRecord): NftSummary {
   return {

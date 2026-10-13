@@ -1,9 +1,12 @@
 import { createNftFixtures, type NftRecord } from '@/mocks/fixtures/nfts'
 import { createUserFixtures, FIXTURE_FAVORITES, type UserRecord } from '@/mocks/fixtures/users'
+import { createWalletFixtures, type WalletRecord } from '@/mocks/fixtures/wallets'
+import type { CheckoutQuote, Order } from '@/contracts/checkout'
+import type { WalletConnection } from '@/contracts/wallet'
 import { readMockConfig, type ScenarioId } from '@/mocks/scenarios'
 
 const STORAGE_KEY = 'kurio:mock-db'
-const SCHEMA_VERSION = 4
+const SCHEMA_VERSION = 5
 
 export type SessionRecord = {
   userId: string
@@ -24,6 +27,22 @@ export type CartRecord = {
   updatedAt: string
 }
 
+export type WalletConnectionRecord = WalletConnection & { userId: string }
+
+export type QuoteRecord = { userId: string; quote: CheckoutQuote }
+
+export type OrderRecord = Order & {
+  userId: string
+  plannedOutcome: 'confirmed' | 'declined'
+  resolveAt: string
+}
+
+export type IdempotencyRecord = {
+  fingerprint: string
+  orderId: string
+  attempts: number
+}
+
 export type MockDb = {
   schemaVersion: number
   scenario: ScenarioId
@@ -32,6 +51,11 @@ export type MockDb = {
   sessions: Record<string, SessionRecord>
   favorites: Record<string, string[]>
   carts: Record<string, CartRecord>
+  wallets: Record<string, WalletRecord>
+  walletConnections: Record<string, WalletConnectionRecord>
+  quotes: Record<string, QuoteRecord>
+  orders: Record<string, OrderRecord>
+  idempotency: Record<string, IdempotencyRecord>
 }
 
 function seed(scenario: ScenarioId): MockDb {
@@ -45,6 +69,11 @@ function seed(scenario: ScenarioId): MockDb {
     sessions: {},
     favorites: scenario === 'vazio' ? {} : structuredClone(FIXTURE_FAVORITES),
     carts: {},
+    wallets: Object.fromEntries(createWalletFixtures().map((wallet) => [wallet.id, wallet])),
+    walletConnections: {},
+    quotes: {},
+    orders: {},
+    idempotency: {},
   }
 }
 

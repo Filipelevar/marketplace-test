@@ -1,4 +1,5 @@
 import { delay, http, HttpResponse } from 'msw'
+import type { ApiErrorCode } from '@/contracts/api-error'
 import { apiError } from '@/mocks/http'
 import { readMockConfig } from '@/mocks/scenarios'
 
@@ -17,7 +18,14 @@ function createSeededRandom(seed: number) {
 const random = createSeededRandom(20261013)
 let requestCount = 0
 
-type QueuedFailure = { method: string; path: string; status: 'network' | number; delayMs?: number }
+type QueuedFailure = {
+  method: string
+  path: string
+  status: 'network' | number
+  delayMs?: number
+  code?: ApiErrorCode
+  message?: string
+}
 const queuedFailures: QueuedFailure[] = []
 
 export function queueFailure(failure: QueuedFailure) {
@@ -54,7 +62,10 @@ export const networkHandlers = [
     if (queued?.delayMs) await delay(queued.delayMs)
     if (queued?.status === 'network') return HttpResponse.error()
     if (queued) {
-      return HttpResponse.json({ code: 'UNAVAILABLE', message: 'Serviço temporariamente indisponível. Tente novamente.' }, { status: queued.status })
+      return HttpResponse.json(
+        { code: queued.code ?? 'UNAVAILABLE', message: queued.message ?? 'Serviço temporariamente indisponível. Tente novamente.' },
+        { status: queued.status },
+      )
     }
 
     if (scenario === 'offline') return HttpResponse.error()

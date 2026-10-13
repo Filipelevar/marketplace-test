@@ -31,7 +31,7 @@ export async function failNext(
   page: Page,
   method: string,
   path: string,
-  options: { status?: number | 'network'; delayMs?: number } = {},
+  options: { status?: number | 'network'; delayMs?: number; code?: string; message?: string } = {},
 ) {
   await page.evaluate(
     (body) =>
@@ -40,6 +40,6 @@ export async function failNext(
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body),
       }),
-    { method, path, status: options.status ?? 503, delayMs: options.delayMs },
+    { method, path, status: options.status ?? 503, delayMs: options.delayMs, code: options.code, message: options.message },
   )
 }

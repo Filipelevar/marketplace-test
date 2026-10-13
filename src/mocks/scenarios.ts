@@ -6,6 +6,8 @@ export const SCENARIOS = {
   instavel: 'Uma em cada três requisições falha com 503',
   offline: 'Todas as requisições falham por indisponibilidade de conexão',
   'erro-servidor': 'Todas as requisições respondem 500',
+  'pagamento-recusado': 'Pedidos são recusados pela carteira',
+  'timeout-pedido': 'A primeira resposta de cada pedido se perde após a criação',
 } as const
 
 export type ScenarioId = keyof typeof SCENARIOS

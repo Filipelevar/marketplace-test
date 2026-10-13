@@ -1,7 +1,10 @@
 import { http, HttpResponse } from 'msw'
 import { isScenarioId, readMockConfig, SCENARIOS, writeMockConfig, type MockConfig } from '@/mocks/scenarios'
-import { readJson } from '@/mocks/http'
+import { isApiErrorCode, readJson } from '@/mocks/http'
 import { commit, resetDb } from '@/mocks/store/db'
+import { armDropNextOrderResponse, setNextOrderOutcome } from '@/mocks/store/checkout'
+import { toDetail, updateNft } from '@/mocks/store/nfts'
+import { isEthString } from '@/lib/eth'
 import { queueFailure } from './network'
 import { dropAllConnections, emitToClients } from '@/mocks/socket/server'
 
@@ -39,7 +42,39 @@ export const devHandlers = [
     }
     const status = 'status' in body && (typeof body.status === 'number' || body.status === 'network') ? body.status : 503
     const delayMs = 'delayMs' in body && typeof body.delayMs === 'number' ? body.delayMs : undefined
-    queueFailure({ method: String(body.method), path: String(body.path), status, delayMs })
+    const code = 'code' in body && isApiErrorCode(body.code) ? body.code : undefined
+    const message = 'message' in body && typeof body.message === 'string' ? body.message : undefined
+    queueFailure({ method: String(body.method), path: String(body.path), status, delayMs, code, message })
+    return new HttpResponse(null, { status: 204 })
+  }),
+
+  http.patch('/api/__dev/nfts/:id', async ({ params, request }) => {
+    const body = await readJson(request)
+    if (typeof body !== 'object' || body === null) return HttpResponse.json({ message: 'Corpo inválido.' }, { status: 400 })
+    const priceEth = 'priceEth' in body && typeof body.priceEth === 'string' && isEthString(body.priceEth) ? body.priceEth : undefined
+    const editionAvailability =
+      'editionAvailability' in body && typeof body.editionAvailability === 'object' && body.editionAvailability !== null
+        ? Object.fromEntries(
+            Object.entries(body.editionAvailability).filter((entry): entry is [string, number] => typeof entry[1] === 'number'),
+          )
+        : undefined
+    const nft = updateNft(String(params.id), { priceEth, editionAvailability })
+    if (!nft) return HttpResponse.json({ message: 'NFT não encontrado.' }, { status: 404 })
+    return HttpResponse.json(toDetail(nft))
+  }),
+
+  http.post('/api/__dev/orders/next-outcome', async ({ request }) => {
+    const body = await readJson(request)
+    const outcome = typeof body === 'object' && body !== null && 'outcome' in body ? body.outcome : null
+    if (outcome !== 'confirmed' && outcome !== 'declined') {
+      return HttpResponse.json({ message: 'Use confirmed ou declined.' }, { status: 400 })
+    }
+    setNextOrderOutcome(outcome)
+    return new HttpResponse(null, { status: 204 })
+  }),
+
+  http.post('/api/__dev/orders/drop-next-response', () => {
+    armDropNextOrderResponse()
     return new HttpResponse(null, { status: 204 })
   }),
 

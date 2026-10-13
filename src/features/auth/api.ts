@@ -4,6 +4,7 @@ import type { Cart } from '@/contracts/cart'
 import { http } from '@/lib/http'
 import { clearGuestCartId, readGuestCartId } from '@/features/cart/cart-id-storage'
 import { cartKeys } from '@/features/cart/keys'
+import { clearCheckoutStorage } from '@/features/checkout/storage'
 import { clearPrivateData } from './private-data'
 import { clearStoredSession, useStoredSession, writeStoredSession } from './session-storage'
 
@@ -55,6 +56,7 @@ async function completeSignIn(queryClient: QueryClient, session: SessionResponse
 
 export function signOutLocally(queryClient: QueryClient) {
   clearStoredSession()
+  clearCheckoutStorage()
   clearPrivateData(queryClient)
 }
 

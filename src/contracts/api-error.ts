@@ -1,3 +1,5 @@
+import type { CheckoutQuote } from './checkout'
+
 export type ApiErrorCode =
   | 'VALIDATION_ERROR'
   | 'UNAUTHORIZED'
@@ -6,9 +8,15 @@ export type ApiErrorCode =
   | 'NOT_FOUND'
   | 'CONFLICT'
   | 'UNAVAILABLE'
+  | 'QUOTE_CHANGED'
+  | 'IDEMPOTENCY_CONFLICT'
+  | 'WALLET_DISCONNECTED'
+  | 'WALLET_REJECTED'
+  | 'CART_EMPTY'
 
 export type ApiErrorBody = {
   code: ApiErrorCode
   message: string
   fieldErrors?: Record<string, string>
+  quote?: CheckoutQuote
 }
