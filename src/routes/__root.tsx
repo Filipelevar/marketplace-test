@@ -5,6 +5,7 @@ import { MobileTabBar } from '@/components/layout/mobile-tab-bar'
 import { SiteFooter } from '@/components/layout/site-footer'
 import { SiteHeader } from '@/components/layout/site-header'
 import { Button } from '@/components/ui/button'
+import { SessionWatcher } from '@/features/auth/components/session-watcher'
 
 export const Route = createRootRouteWithContext<RouterContext>()({
   head: () => ({
@@ -36,7 +37,8 @@ function RootLayout() {
       </main>
       <SiteFooter />
       <MobileTabBar />
-      <Toaster theme="dark" position="top-center" closeButton />
+      <SessionWatcher />
+      <Toaster theme="dark" position="top-center" closeButton mobileOffset={{ top: 76 }} />
     </>
   )
 }

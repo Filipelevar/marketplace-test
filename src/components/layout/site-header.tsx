@@ -1,8 +1,11 @@
 import type { ReactNode } from 'react'
 import { Link, useLocation } from '@tanstack/react-router'
-import { LogIn, ShoppingCart } from 'lucide-react'
+import { LogIn, ShoppingCart, UserRound } from 'lucide-react'
 import { cn } from 'cn'
 import { Button } from '@/components/ui/button'
+import { useSession } from '@/features/auth/api'
+import { cartLabel, useCartCount } from '@/features/cart/cart-count'
+import { CartBadge } from './cart-badge'
 import { HeaderSearch } from './header-search'
 
 const MARKET_PATHS = ['/nfts', '/carrinho', '/pagamento']
@@ -25,6 +28,8 @@ export function SiteHeader() {
   const section = 'secao' in search ? search.secao : undefined
   const isHome = pathname === '/'
   const isMarket = MARKET_PATHS.some((path) => pathname.startsWith(path))
+  const session = useSession()
+  const cartCount = useCartCount()
 
   return (
     <header className="page-container hidden pt-6 lg:block">
@@ -60,15 +65,25 @@ export function SiteHeader() {
 
         <div className="flex h-[35px] w-[207px] items-center justify-end gap-7">
           <HeaderSearch />
-          <Link to="/carrinho" aria-label="Carrinho" className="relative text-foreground hover:text-highlight">
+          <Link to="/carrinho" aria-label={cartLabel(cartCount)} className="relative text-foreground hover:text-highlight">
             <ShoppingCart aria-hidden className="size-6" />
+            <CartBadge count={cartCount} />
           </Link>
-          <Button asChild size="sm" className="h-[35px] gap-1 px-2.5 text-base font-medium">
-            <Link to="/entrar">
-              <LogIn aria-hidden />
-              Entrar
-            </Link>
-          </Button>
+          {session.status === 'authenticated' ? (
+            <Button asChild size="sm" variant="outline" className="h-[35px] max-w-36 gap-1 px-2.5 text-base font-medium">
+              <Link to="/perfil" aria-label={`Meu perfil (${session.user.displayName})`}>
+                <UserRound aria-hidden />
+                <span className="truncate">{session.user.displayName.split(' ')[0]}</span>
+              </Link>
+            </Button>
+          ) : (
+            <Button asChild size="sm" className="h-[35px] gap-1 px-2.5 text-base font-medium">
+              <Link to="/entrar">
+                <LogIn aria-hidden />
+                Entrar
+              </Link>
+            </Button>
+          )}
         </div>
       </div>
     </header>

@@ -3,6 +3,7 @@ import { cn } from 'cn'
 import type { NftSummary } from '@/contracts/nft'
 import { Skeleton } from '@/components/ui/skeleton'
 import { displayEth } from '@/lib/eth'
+import { NftCardActions } from './nft-card-actions'
 
 type NftCardProps = {
   nft: NftSummary
@@ -13,7 +14,8 @@ export function NftCard({ nft, priority = false }: NftCardProps) {
   const soldOut = nft.available === 0
 
   return (
-    <article className="group flex flex-col gap-3">
+    <article className="group relative flex flex-col gap-3">
+      <NftCardActions nft={nft} />
       <Link
         to="/nfts/$nftId"
         params={{ nftId: nft.id }}

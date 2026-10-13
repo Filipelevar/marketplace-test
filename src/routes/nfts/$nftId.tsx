@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { useQuery } from '@tanstack/react-query'
 import { createFileRoute, Link, useRouter } from '@tanstack/react-router'
-import { AlertTriangle, ChevronLeft, Heart, SearchX } from 'lucide-react'
-import { nftDetailSearchSchema } from '@/contracts/nft'
+import { AlertTriangle, ChevronLeft, SearchX } from 'lucide-react'
+import { nftDetailSearchSchema, type NftSummary } from '@/contracts/nft'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import { nftDetailQuery, relatedNftsQuery } from '@/features/catalog/api'
@@ -12,6 +12,8 @@ import { NftInfoTabs } from '@/features/nft-detail/components/nft-info-tabs'
 import { MobilePurchaseBar, NftPurchasePanel } from '@/features/nft-detail/components/nft-purchase-panel'
 import { RelatedNfts } from '@/features/nft-detail/components/related-nfts'
 import { getApiError, getApiErrorMessage } from '@/lib/api-error'
+import { useAddToCartWithFeedback } from '@/features/cart/use-add-to-cart-feedback'
+import { FavoriteButton } from '@/features/favorites/favorite-button'
 
 export const Route = createFileRoute('/nfts/$nftId')({
   validateSearch: nftDetailSearchSchema,
@@ -48,7 +50,7 @@ function Breadcrumb() {
   )
 }
 
-function MobileImageActions() {
+function MobileImageActions({ nft }: { nft: NftSummary }) {
   const router = useRouter()
   return (
     <div className="pointer-events-none absolute inset-x-0 top-0 z-10 flex justify-between p-6 lg:hidden">
@@ -60,14 +62,7 @@ function MobileImageActions() {
       >
         <ChevronLeft aria-hidden className="size-5" />
       </button>
-      <button
-        type="button"
-        aria-label="Favoritar"
-        disabled
-        className="pointer-events-auto grid size-[37px] place-items-center rounded-full bg-background/70 text-highlight backdrop-blur disabled:opacity-60"
-      >
-        <Heart aria-hidden className="size-5" />
-      </button>
+      <FavoriteButton nft={nft} variant="icon" className="pointer-events-auto" />
     </div>
   )
 }
@@ -102,6 +97,7 @@ function NftDetailPage({ nftId }: { nftId: string }) {
   const navigate = Route.useNavigate()
   const { data: nft, isPending, isError, error, refetch } = useQuery(nftDetailQuery(nftId))
   const [quantity, setQuantity] = useState(1)
+  const cart = useAddToCartWithFeedback()
 
   if (isPending) return <NftDetailSkeleton />
 
@@ -137,6 +133,11 @@ function NftDetailPage({ nftId }: { nftId: string }) {
   const maxQuantity = maxQuantityFor(edition)
   const safeQuantity = Math.max(1, Math.min(quantity, maxQuantity))
 
+  function addToCart(goToCart: boolean) {
+    if (!nft || !edition) return
+    cart.add({ nftId: nft.id, editionId: edition.id, quantity: safeQuantity, name: nft.name }, { goToCart })
+  }
+
   function selectEdition(nextEditionId: string) {
     setQuantity(1)
     void navigate({ search: { edition: nextEditionId }, replace: true, resetScroll: false })
@@ -149,7 +150,7 @@ function NftDetailPage({ nftId }: { nftId: string }) {
         <Breadcrumb />
         <div className="flex flex-col lg:flex-row lg:gap-8">
           <div className="relative -mx-4 sm:-mx-6 lg:mx-0">
-            <MobileImageActions />
+            <MobileImageActions nft={nft} />
             <NftGallery name={nft.name} images={nft.gallery} />
           </div>
           <div className="relative -mt-8 rounded-t-[30px] bg-background pt-6 lg:mt-0 lg:flex-1 lg:rounded-none lg:pt-0">
@@ -159,6 +160,9 @@ function NftDetailPage({ nftId }: { nftId: string }) {
               quantity={safeQuantity}
               onEditionChange={selectEdition}
               onQuantityChange={setQuantity}
+              onBuy={() => addToCart(true)}
+              onAddToCart={() => addToCart(false)}
+              isAdding={cart.isPending}
             />
           </div>
         </div>
@@ -171,7 +175,15 @@ function NftDetailPage({ nftId }: { nftId: string }) {
         <RelatedNfts nftId={nft.id} />
       </div>
 
-      <MobilePurchaseBar nft={nft} edition={edition} quantity={safeQuantity} onQuantityChange={setQuantity} />
+      <MobilePurchaseBar
+        nft={nft}
+        edition={edition}
+        quantity={safeQuantity}
+        onQuantityChange={setQuantity}
+        onBuy={() => addToCart(true)}
+        onAddToCart={() => addToCart(false)}
+        isAdding={cart.isPending}
+      />
     </div>
   )
 }

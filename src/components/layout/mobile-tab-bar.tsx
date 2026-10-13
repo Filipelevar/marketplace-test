@@ -2,6 +2,8 @@ import type { ComponentType, SVGProps } from 'react'
 import { Link, useLocation } from '@tanstack/react-router'
 import { Heart, House, ScanLine, ShoppingCart, User } from 'lucide-react'
 import { cn } from 'cn'
+import { cartLabel, useCartCount } from '@/features/cart/cart-count'
+import { CartBadge } from './cart-badge'
 import { useMobileBottomBar } from './use-mobile-bottom-bar'
 
 type TabProps = {
@@ -11,17 +13,21 @@ type TabProps = {
   active: boolean
 }
 
-function Tab({ to, label, icon: Icon, active }: TabProps) {
+function Tab({ to, label, icon: Icon, active, badge = 0, ariaLabel }: TabProps & { badge?: number; ariaLabel?: string }) {
   return (
     <Link
       to={to}
+      aria-label={ariaLabel}
       aria-current={active ? 'page' : undefined}
       className={cn(
         'flex flex-1 flex-col items-center justify-center gap-1 text-[11px] font-medium transition-colors',
         active ? 'text-primary' : 'text-muted-foreground hover:text-foreground',
       )}
     >
-      <Icon aria-hidden className="size-5" />
+      <span className="relative">
+        <Icon aria-hidden className="size-5" />
+        <CartBadge count={badge} />
+      </span>
       {label}
     </Link>
   )
@@ -30,6 +36,7 @@ function Tab({ to, label, icon: Icon, active }: TabProps) {
 export function MobileTabBar() {
   const { pathname } = useLocation()
   const bottomBar = useMobileBottomBar()
+  const cartCount = useCartCount()
 
   if (bottomBar !== 'navigation') return null
 
@@ -51,7 +58,14 @@ export function MobileTabBar() {
             <ScanLine aria-hidden className="size-7" />
           </Link>
         </div>
-        <Tab to="/carrinho" label="Carrinho" icon={ShoppingCart} active={pathname.startsWith('/carrinho')} />
+        <Tab
+          to="/carrinho"
+          label="Carrinho"
+          ariaLabel={cartLabel(cartCount)}
+          badge={cartCount}
+          icon={ShoppingCart}
+          active={pathname.startsWith('/carrinho')}
+        />
         <Tab to="/perfil" label="Perfil" icon={User} active={pathname.startsWith('/perfil')} />
       </div>
     </nav>

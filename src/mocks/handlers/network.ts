@@ -17,6 +17,21 @@ function createSeededRandom(seed: number) {
 const random = createSeededRandom(20261013)
 let requestCount = 0
 
+type QueuedFailure = { method: string; path: string; status: 'network' | number; delayMs?: number }
+const queuedFailures: QueuedFailure[] = []
+
+export function queueFailure(failure: QueuedFailure) {
+  queuedFailures.push({ ...failure, method: failure.method.toUpperCase() })
+}
+
+function takeQueuedFailure(request: Request) {
+  const pathname = new URL(request.url).pathname
+  const index = queuedFailures.findIndex(
+    (failure) => failure.method === request.method && pathname.startsWith(failure.path),
+  )
+  return index === -1 ? null : (queuedFailures.splice(index, 1)[0] ?? null)
+}
+
 function latencyFor(scenario: string, sequence: number): number {
   if (scenario === 'lento') return 2000 + Math.round(random() * 2000)
   if (scenario === 'fora-de-ordem') return 1600 - (sequence % 4) * 450
@@ -33,6 +48,13 @@ export const networkHandlers = [
 
     if (latency === 'realistic' || scenario === 'lento' || scenario === 'fora-de-ordem') {
       await delay(latencyFor(scenario, sequence))
+    }
+
+    const queued = takeQueuedFailure(request)
+    if (queued?.delayMs) await delay(queued.delayMs)
+    if (queued?.status === 'network') return HttpResponse.error()
+    if (queued) {
+      return HttpResponse.json({ code: 'UNAVAILABLE', message: 'Serviço temporariamente indisponível. Tente novamente.' }, { status: queued.status })
     }
 
     if (scenario === 'offline') return HttpResponse.error()

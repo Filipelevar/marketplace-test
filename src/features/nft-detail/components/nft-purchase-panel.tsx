@@ -1,9 +1,10 @@
-import { Heart, ShoppingCart } from 'lucide-react'
+import { ShoppingCart } from 'lucide-react'
 import type { NftDetail, NftEdition } from '@/contracts/nft'
 import { QuantityStepper } from '@/components/quantity-stepper'
 import { RatingStars } from '@/components/rating-stars'
 import { Button } from '@/components/ui/button'
 import { displayEth } from '@/lib/eth'
+import { FavoriteButton } from '@/features/favorites/favorite-button'
 import { maxQuantityFor } from '../editions'
 import { EditionPicker } from './edition-picker'
 import { ShareLinks } from './share-links'
@@ -14,6 +15,9 @@ type NftPurchasePanelProps = {
   quantity: number
   onEditionChange: (editionId: string) => void
   onQuantityChange: (quantity: number) => void
+  onBuy: () => void
+  onAddToCart: () => void
+  isAdding: boolean
 }
 
 export function AvailabilityNotice({ nft, edition }: { nft: NftDetail; edition: NftEdition | undefined }) {
@@ -41,7 +45,15 @@ export function AvailabilityNotice({ nft, edition }: { nft: NftDetail; edition: 
   return null
 }
 
-export function NftPurchasePanel({ nft, edition, quantity, onEditionChange, onQuantityChange }: NftPurchasePanelProps) {
+export function NftPurchasePanel({
+  nft,
+  edition,
+  quantity,
+  onEditionChange,
+  onQuantityChange,
+  onBuy,
+  isAdding,
+}: NftPurchasePanelProps) {
   const maxQuantity = maxQuantityFor(edition)
   const soldOut = maxQuantity === 0
 
@@ -79,13 +91,10 @@ export function NftPurchasePanel({ nft, edition, quantity, onEditionChange, onQu
           onChange={onQuantityChange}
         />
         <div className="flex gap-2">
-          <Button disabled className="w-[130px]">
-            COMPRAR
+          <Button onClick={onBuy} disabled={soldOut || isAdding} className="w-[130px]">
+            {isAdding ? 'ADICIONANDO...' : 'COMPRAR'}
           </Button>
-          <Button variant="outline" disabled className="w-[130px] font-medium">
-            <Heart aria-hidden />
-            Favoritar
-          </Button>
+          <FavoriteButton nft={nft} variant="button" className="w-[130px]" />
         </div>
       </div>
 
@@ -113,7 +122,10 @@ export function MobilePurchaseBar({
   edition,
   quantity,
   onQuantityChange,
-}: Pick<NftPurchasePanelProps, 'nft' | 'edition' | 'quantity' | 'onQuantityChange'>) {
+  onBuy,
+  onAddToCart,
+  isAdding,
+}: Pick<NftPurchasePanelProps, 'nft' | 'edition' | 'quantity' | 'onQuantityChange' | 'onBuy' | 'onAddToCart' | 'isAdding'>) {
   const maxQuantity = maxQuantityFor(edition)
   const soldOut = maxQuantity === 0
 
@@ -136,10 +148,22 @@ export function MobilePurchaseBar({
         <p className="text-xl font-bold text-highlight">{displayEth(nft.priceEth)}</p>
       </div>
       <div className="flex gap-3">
-        <Button disabled size="lg" className="flex-1 rounded-[30px] bg-linear-to-r from-primary-light to-primary-dark">
+        <Button
+          size="lg"
+          onClick={onBuy}
+          disabled={soldOut || isAdding}
+          className="h-[60px] flex-1 rounded-[30px] bg-linear-to-r from-primary-light to-primary-dark"
+        >
           Comprar NFT
         </Button>
-        <Button disabled size="icon" variant="secondary" aria-label="Adicionar ao carrinho" className="size-[60px] rounded-full bg-secondary">
+        <Button
+          size="icon"
+          variant="secondary"
+          onClick={onAddToCart}
+          disabled={soldOut || isAdding}
+          aria-label="Adicionar ao carrinho"
+          className="size-[60px] rounded-full bg-secondary"
+        >
           <ShoppingCart aria-hidden />
         </Button>
       </div>

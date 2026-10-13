@@ -10,17 +10,29 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AutenticadoRouteImport } from './routes/_autenticado'
+import { Route as CadastroRouteImport } from './routes/cadastro'
 import { Route as CarrinhoRouteImport } from './routes/carrinho'
 import { Route as EmBreveRouteImport } from './routes/em-breve'
 import { Route as EntrarRouteImport } from './routes/entrar'
-import { Route as FavoritosRouteImport } from './routes/favoritos'
-import { Route as PerfilRouteImport } from './routes/perfil'
+import { Route as AutenticadoFavoritosRouteImport } from './routes/_autenticado/favoritos'
+import { Route as AutenticadoPagamentoRouteImport } from './routes/_autenticado/pagamento'
+import { Route as AutenticadoPerfilRouteImport } from './routes/_autenticado/perfil'
 import { Route as NftsNftIdRouteImport } from './routes/nfts/$nftId'
 import { Route as PocSocketRouteImport } from './routes/poc.socket'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AutenticadoRoute = AutenticadoRouteImport.update({
+  id: '/_autenticado',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CadastroRoute = CadastroRouteImport.update({
+  id: '/cadastro',
+  path: '/cadastro',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CarrinhoRoute = CarrinhoRouteImport.update({
@@ -38,15 +50,20 @@ const EntrarRoute = EntrarRouteImport.update({
   path: '/entrar',
   getParentRoute: () => rootRouteImport,
 } as any)
-const FavoritosRoute = FavoritosRouteImport.update({
+const AutenticadoFavoritosRoute = AutenticadoFavoritosRouteImport.update({
   id: '/favoritos',
   path: '/favoritos',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AutenticadoRoute,
 } as any)
-const PerfilRoute = PerfilRouteImport.update({
+const AutenticadoPagamentoRoute = AutenticadoPagamentoRouteImport.update({
+  id: '/pagamento',
+  path: '/pagamento',
+  getParentRoute: () => AutenticadoRoute,
+} as any)
+const AutenticadoPerfilRoute = AutenticadoPerfilRouteImport.update({
   id: '/perfil',
   path: '/perfil',
-  getParentRoute: () => rootRouteImport,
+  getParentRoute: () => AutenticadoRoute,
 } as any)
 const NftsNftIdRoute = NftsNftIdRouteImport.update({
   id: '/nfts/$nftId',
@@ -61,32 +78,39 @@ const PocSocketRoute = PocSocketRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/cadastro': typeof CadastroRoute
   '/carrinho': typeof CarrinhoRoute
   '/em-breve': typeof EmBreveRoute
   '/entrar': typeof EntrarRoute
-  '/favoritos': typeof FavoritosRoute
-  '/perfil': typeof PerfilRoute
+  '/favoritos': typeof AutenticadoFavoritosRoute
+  '/pagamento': typeof AutenticadoPagamentoRoute
+  '/perfil': typeof AutenticadoPerfilRoute
   '/nfts/$nftId': typeof NftsNftIdRoute
   '/poc/socket': typeof PocSocketRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/cadastro': typeof CadastroRoute
   '/carrinho': typeof CarrinhoRoute
   '/em-breve': typeof EmBreveRoute
   '/entrar': typeof EntrarRoute
-  '/favoritos': typeof FavoritosRoute
-  '/perfil': typeof PerfilRoute
+  '/favoritos': typeof AutenticadoFavoritosRoute
+  '/pagamento': typeof AutenticadoPagamentoRoute
+  '/perfil': typeof AutenticadoPerfilRoute
   '/nfts/$nftId': typeof NftsNftIdRoute
   '/poc/socket': typeof PocSocketRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/_autenticado': typeof AutenticadoRouteWithChildren
+  '/cadastro': typeof CadastroRoute
   '/carrinho': typeof CarrinhoRoute
   '/em-breve': typeof EmBreveRoute
   '/entrar': typeof EntrarRoute
-  '/favoritos': typeof FavoritosRoute
-  '/perfil': typeof PerfilRoute
+  '/_autenticado/favoritos': typeof AutenticadoFavoritosRoute
+  '/_autenticado/pagamento': typeof AutenticadoPagamentoRoute
+  '/_autenticado/perfil': typeof AutenticadoPerfilRoute
   '/nfts/$nftId': typeof NftsNftIdRoute
   '/poc/socket': typeof PocSocketRoute
 }
@@ -94,42 +118,49 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/cadastro'
     | '/carrinho'
     | '/em-breve'
     | '/entrar'
     | '/favoritos'
+    | '/pagamento'
     | '/perfil'
     | '/nfts/$nftId'
     | '/poc/socket'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/cadastro'
     | '/carrinho'
     | '/em-breve'
     | '/entrar'
     | '/favoritos'
+    | '/pagamento'
     | '/perfil'
     | '/nfts/$nftId'
     | '/poc/socket'
   id:
     | '__root__'
     | '/'
+    | '/_autenticado'
+    | '/cadastro'
     | '/carrinho'
     | '/em-breve'
     | '/entrar'
-    | '/favoritos'
-    | '/perfil'
+    | '/_autenticado/favoritos'
+    | '/_autenticado/pagamento'
+    | '/_autenticado/perfil'
     | '/nfts/$nftId'
     | '/poc/socket'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AutenticadoRoute: typeof AutenticadoRouteWithChildren
+  CadastroRoute: typeof CadastroRoute
   CarrinhoRoute: typeof CarrinhoRoute
   EmBreveRoute: typeof EmBreveRoute
   EntrarRoute: typeof EntrarRoute
-  FavoritosRoute: typeof FavoritosRoute
-  PerfilRoute: typeof PerfilRoute
   NftsNftIdRoute: typeof NftsNftIdRoute
   PocSocketRoute: typeof PocSocketRoute
 }
@@ -141,6 +172,20 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/_autenticado': {
+      id: '/_autenticado'
+      path: ''
+      fullPath: '/'
+      preLoaderRoute: typeof AutenticadoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cadastro': {
+      id: '/cadastro'
+      path: '/cadastro'
+      fullPath: '/cadastro'
+      preLoaderRoute: typeof CadastroRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/carrinho': {
@@ -164,19 +209,26 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof EntrarRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/favoritos': {
-      id: '/favoritos'
+    '/_autenticado/favoritos': {
+      id: '/_autenticado/favoritos'
       path: '/favoritos'
       fullPath: '/favoritos'
-      preLoaderRoute: typeof FavoritosRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AutenticadoFavoritosRouteImport
+      parentRoute: typeof AutenticadoRoute
     }
-    '/perfil': {
-      id: '/perfil'
+    '/_autenticado/pagamento': {
+      id: '/_autenticado/pagamento'
+      path: '/pagamento'
+      fullPath: '/pagamento'
+      preLoaderRoute: typeof AutenticadoPagamentoRouteImport
+      parentRoute: typeof AutenticadoRoute
+    }
+    '/_autenticado/perfil': {
+      id: '/_autenticado/perfil'
       path: '/perfil'
       fullPath: '/perfil'
-      preLoaderRoute: typeof PerfilRouteImport
-      parentRoute: typeof rootRouteImport
+      preLoaderRoute: typeof AutenticadoPerfilRouteImport
+      parentRoute: typeof AutenticadoRoute
     }
     '/nfts/$nftId': {
       id: '/nfts/$nftId'
@@ -195,13 +247,29 @@ declare module '@tanstack/react-router' {
   }
 }
 
+interface AutenticadoRouteChildren {
+  AutenticadoFavoritosRoute: typeof AutenticadoFavoritosRoute
+  AutenticadoPagamentoRoute: typeof AutenticadoPagamentoRoute
+  AutenticadoPerfilRoute: typeof AutenticadoPerfilRoute
+}
+
+const AutenticadoRouteChildren: AutenticadoRouteChildren = {
+  AutenticadoFavoritosRoute: AutenticadoFavoritosRoute,
+  AutenticadoPagamentoRoute: AutenticadoPagamentoRoute,
+  AutenticadoPerfilRoute: AutenticadoPerfilRoute,
+}
+
+const AutenticadoRouteWithChildren = AutenticadoRoute._addFileChildren(
+  AutenticadoRouteChildren,
+)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AutenticadoRoute: AutenticadoRouteWithChildren,
+  CadastroRoute: CadastroRoute,
   CarrinhoRoute: CarrinhoRoute,
   EmBreveRoute: EmBreveRoute,
   EntrarRoute: EntrarRoute,
-  FavoritosRoute: FavoritosRoute,
-  PerfilRoute: PerfilRoute,
   NftsNftIdRoute: NftsNftIdRoute,
   PocSocketRoute: PocSocketRoute,
 }

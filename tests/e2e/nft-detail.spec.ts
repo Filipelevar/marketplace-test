@@ -8,7 +8,7 @@ test.describe('detalhe do NFT', () => {
 
   test('navega do catálogo para o detalhe e suporta acesso direto com refresh', async ({ page }) => {
     await page.goto('/')
-    await page.locator('#catalogo').getByRole('link', { name: /Sage Nomad #009/ }).click()
+    await page.locator('#catalogo').getByRole('link', { name: /^Sage Nomad #009:/ }).click()
 
     await expect(page).toHaveURL(/\/nfts\/sage-nomad-009$/)
     await expect(page.getByRole('heading', { level: 1, name: 'Sage Nomad #009' })).toBeVisible()
@@ -60,7 +60,7 @@ test.describe('detalhe do NFT', () => {
   test('mais desta coleção leva a outro NFT e reinicia o estado da página', async ({ page }) => {
     await page.goto('/nfts/emerald-ape-042?edition=aberta')
     const related = page.getByRole('region', { name: 'Mais desta coleção' })
-    await related.getByRole('link', { name: /Jade Monarch #233/ }).click()
+    await related.getByRole('link', { name: /^Jade Monarch #233:/ }).click()
 
     await expect(page).toHaveURL(/\/nfts\/jade-monarch-233$/)
     await expect(page.getByRole('heading', { level: 1, name: 'Jade Monarch #233' })).toBeVisible()

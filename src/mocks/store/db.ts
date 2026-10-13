@@ -1,21 +1,50 @@
 import { createNftFixtures, type NftRecord } from '@/mocks/fixtures/nfts'
+import { createUserFixtures, FIXTURE_FAVORITES, type UserRecord } from '@/mocks/fixtures/users'
 import { readMockConfig, type ScenarioId } from '@/mocks/scenarios'
 
 const STORAGE_KEY = 'kurio:mock-db'
-const SCHEMA_VERSION = 3
+const SCHEMA_VERSION = 4
+
+export type SessionRecord = {
+  userId: string
+  expiresAt: string
+}
+
+export type CartLineRecord = {
+  nftId: string
+  editionId: string
+  quantity: number
+}
+
+export type CartRecord = {
+  id: string
+  ownerUserId: string | null
+  items: CartLineRecord[]
+  couponCode: string | null
+  updatedAt: string
+}
 
 export type MockDb = {
   schemaVersion: number
   scenario: ScenarioId
   nfts: Record<string, NftRecord>
+  users: Record<string, UserRecord>
+  sessions: Record<string, SessionRecord>
+  favorites: Record<string, string[]>
+  carts: Record<string, CartRecord>
 }
 
 function seed(scenario: ScenarioId): MockDb {
   const nfts = scenario === 'vazio' ? [] : createNftFixtures()
+  const users = createUserFixtures()
   return {
     schemaVersion: SCHEMA_VERSION,
     scenario,
     nfts: Object.fromEntries(nfts.map((nft) => [nft.id, nft])),
+    users: Object.fromEntries(users.map((user) => [user.id, user])),
+    sessions: {},
+    favorites: scenario === 'vazio' ? {} : structuredClone(FIXTURE_FAVORITES),
+    carts: {},
   }
 }
 
@@ -55,10 +84,11 @@ export function getDb(): MockDb {
   return db
 }
 
-export function commit(mutate: (state: MockDb) => void) {
+export function commit<T>(mutate: (state: MockDb) => T): T {
   const state = getDb()
-  mutate(state)
+  const result = mutate(state)
   persist(state)
+  return result
 }
 
 export function resetDb(scenario: ScenarioId) {

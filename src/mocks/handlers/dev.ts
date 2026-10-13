@@ -1,7 +1,8 @@
 import { http, HttpResponse } from 'msw'
 import { isScenarioId, readMockConfig, SCENARIOS, writeMockConfig, type MockConfig } from '@/mocks/scenarios'
 import { readJson } from '@/mocks/http'
-import { resetDb } from '@/mocks/store/db'
+import { commit, resetDb } from '@/mocks/store/db'
+import { queueFailure } from './network'
 import { dropAllConnections, emitToClients } from '@/mocks/socket/server'
 
 type EmitRequestBody = {
@@ -29,6 +30,24 @@ export const devHandlers = [
     writeMockConfig(next)
     resetDb(next.scenario)
     return HttpResponse.json(next)
+  }),
+
+  http.post('/api/__dev/fail-next', async ({ request }) => {
+    const body = await readJson(request)
+    if (typeof body !== 'object' || body === null || !('method' in body) || !('path' in body)) {
+      return HttpResponse.json({ message: 'Informe method e path.' }, { status: 400 })
+    }
+    const status = 'status' in body && (typeof body.status === 'number' || body.status === 'network') ? body.status : 503
+    const delayMs = 'delayMs' in body && typeof body.delayMs === 'number' ? body.delayMs : undefined
+    queueFailure({ method: String(body.method), path: String(body.path), status, delayMs })
+    return new HttpResponse(null, { status: 204 })
+  }),
+
+  http.post('/api/__dev/session/expire', () => {
+    commit((state) => {
+      for (const session of Object.values(state.sessions)) session.expiresAt = new Date(0).toISOString()
+    })
+    return new HttpResponse(null, { status: 204 })
   }),
 
   http.post<never, EmitRequestBody>('/api/__dev/socket/emit', async ({ request }) => {
