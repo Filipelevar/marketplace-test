@@ -516,10 +516,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@fontsource-variable/geist@npm:^5.3.0":
+"@fontsource-variable/roboto-mono@npm:^5.3.0":
   version: 5.3.0
-  resolution: "@fontsource-variable/geist@npm:5.3.0"
-  checksum: 10c0/6b1d1d249643377c885d040769bf0964f242e8d03c4470535329ad4eed3d30a8134fea0d45c0b99b8069924a1f506a3bcb5b8d9cea77b7b5234dc7dd57371842
+  resolution: "@fontsource-variable/roboto-mono@npm:5.3.0"
+  checksum: 10c0/dbb0234b3b637e2f145e693cad525c81371af26251fcf3cc9683931bda6b53e3c9c2680f89cf0c87c2a52723d01e873cf893982178b63a7afdd4c0a4ca929d61
   languageName: node
   linkType: hard
 
@@ -4398,7 +4398,7 @@ __metadata:
   resolution: "greenmint-marketplace@workspace:."
   dependencies:
     "@eslint/js": "npm:^10.0.1"
-    "@fontsource-variable/geist": "npm:^5.3.0"
+    "@fontsource-variable/roboto-mono": "npm:^5.3.0"
     "@mswjs/socket.io-binding": "npm:0.2.0"
     "@playwright/test": "npm:^1.64.0"
     "@tailwindcss/vite": "npm:^4.3.3"
