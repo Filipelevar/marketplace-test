@@ -6,7 +6,7 @@ import tseslint from 'typescript-eslint'
 import { defineConfig, globalIgnores } from 'eslint/config'
 
 export default defineConfig([
-  globalIgnores(['dist']),
+  globalIgnores(['dist', 'src/routeTree.gen.ts']),
   {
     files: ['**/*.{ts,tsx}'],
     extends: [
@@ -20,8 +20,9 @@ export default defineConfig([
     },
   },
   {
-    // shadcn/ui generated components export variants (e.g. buttonVariants) next to the component
-    files: ['src/components/ui/**/*.tsx'],
+    // shadcn/ui components export variants next to the component;
+    // route files export `Route`, and the router plugin handles their HMR
+    files: ['src/components/ui/**/*.tsx', 'src/routes/**/*.tsx'],
     rules: {
       'react-refresh/only-export-components': 'off',
     },
