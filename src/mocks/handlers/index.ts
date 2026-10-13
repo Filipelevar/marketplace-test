@@ -1,31 +1,15 @@
-import { http, HttpResponse } from 'msw'
-import { dropAllConnections, emitToClients, socketHandlers } from '@/mocks/socket/server'
-
-type EmitRequestBody = {
-  event: string
-  payload: unknown
-  userId?: string
-}
+import { http } from 'msw'
+import { apiError } from '@/mocks/http'
+import { socketHandlers } from '@/mocks/socket/server'
+import { devHandlers } from './dev'
+import { newsletterHandlers } from './newsletter'
 
 export const handlers = [
   ...socketHandlers,
-
-  http.get('/api/health', () => HttpResponse.json({ status: 'ok' })),
-
-  http.post<never, EmitRequestBody>('/api/__dev/socket/emit', async ({ request }) => {
-    const { event, payload, userId } = await request.json()
-    const delivered = emitToClients(event, payload, { userId })
-    return HttpResponse.json({ delivered })
-  }),
-  http.post('/api/__dev/socket/drop', () => {
-    dropAllConnections()
-    return new HttpResponse(null, { status: 204 })
-  }),
+  ...devHandlers,
+  ...newsletterHandlers,
 
   http.all('/api/*', ({ request }) =>
-    HttpResponse.json(
-      { code: 'NOT_FOUND', message: `No route for ${request.method} ${new URL(request.url).pathname}` },
-      { status: 404 },
-    ),
+    apiError('NOT_FOUND', `No route for ${request.method} ${new URL(request.url).pathname}`),
   ),
 ]

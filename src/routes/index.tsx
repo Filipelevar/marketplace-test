@@ -6,11 +6,13 @@ export const Route = createFileRoute('/')({
 
 function HomePage() {
   return (
-    <main className="grid min-h-dvh place-content-center gap-4">
-      <h1 className="text-2xl font-semibold">GreenMint</h1>
-      <Link to="/nfts/$nftId" params={{ nftId: 'demo' }} className="underline">
-        Ver NFT de exemplo
-      </Link>
-    </main>
+    <section className="page-container flex flex-col gap-4 py-24">
+      <h1 className="text-2xl font-bold">Kurio</h1>
+      <div id="catalogo">
+        <Link to="/nfts/$nftId" params={{ nftId: 'demo' }} className="text-highlight underline">
+          Ver NFT de exemplo
+        </Link>
+      </div>
+    </section>
   )
 }

@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test'
 
 test('MSW worker controls the page and answers API requests', async ({ page }) => {
   await page.goto('/')
-  await expect(page.getByRole('heading', { name: 'GreenMint' })).toBeVisible()
+  await expect(page.getByRole('heading', { level: 1 })).toBeVisible()
 
   const controller = await page.evaluate(() => navigator.serviceWorker.controller?.scriptURL)
   expect(controller).toContain('/mockServiceWorker.js')
