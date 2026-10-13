@@ -3,6 +3,7 @@ import { Link, useLocation } from '@tanstack/react-router'
 import { LogIn, ShoppingCart } from 'lucide-react'
 import { cn } from 'cn'
 import { Button } from '@/components/ui/button'
+import { HeaderSearch } from './header-search'
 
 const MARKET_PATHS = ['/nfts', '/carrinho', '/pagamento']
 
@@ -58,6 +59,7 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex h-[35px] w-[207px] items-center justify-end gap-7">
+          <HeaderSearch />
           <Link to="/carrinho" aria-label="Carrinho" className="relative text-foreground hover:text-highlight">
             <ShoppingCart aria-hidden className="size-6" />
           </Link>

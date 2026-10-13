@@ -68,11 +68,11 @@ const LINK_GROUPS: { title: string; links: FooterLink[] }[] = [
   {
     title: 'Coleções',
     links: [
-      { label: 'Arte digital', link: { to: '/', hash: 'catalogo' } },
-      { label: 'Fotografia', link: { to: '/', hash: 'catalogo' } },
-      { label: 'Música', link: { to: '/', hash: 'catalogo' } },
-      { label: 'Arte 3D', link: { to: '/', hash: 'catalogo' } },
-      { label: 'Utilidade', link: { to: '/', hash: 'catalogo' } },
+      { label: 'Arte digital', link: { to: '/', search: { collections: ['arte-digital'] }, hash: 'catalogo' } },
+      { label: 'Fotografia', link: { to: '/', search: { collections: ['fotografia'] }, hash: 'catalogo' } },
+      { label: 'Música', link: { to: '/', search: { collections: ['musica'] }, hash: 'catalogo' } },
+      { label: 'Arte 3D', link: { to: '/', search: { collections: ['arte-3d'] }, hash: 'catalogo' } },
+      { label: 'Utilidade', link: { to: '/', search: { collections: ['utilidade'] }, hash: 'catalogo' } },
     ],
   },
 ]
