@@ -2,6 +2,7 @@ import type { ComponentType, SVGProps } from 'react'
 import { Link, useLocation } from '@tanstack/react-router'
 import { Heart, House, ScanLine, ShoppingCart, User } from 'lucide-react'
 import { cn } from 'cn'
+import { useMobileBottomBar } from './use-mobile-bottom-bar'
 
 type TabProps = {
   to: '/' | '/favoritos' | '/carrinho' | '/perfil'
@@ -28,6 +29,9 @@ function Tab({ to, label, icon: Icon, active }: TabProps) {
 
 export function MobileTabBar() {
   const { pathname } = useLocation()
+  const bottomBar = useMobileBottomBar()
+
+  if (bottomBar !== 'navigation') return null
 
   return (
     <nav

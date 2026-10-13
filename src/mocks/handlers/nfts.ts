@@ -12,6 +12,8 @@ import { apiError } from '@/mocks/http'
 import { getDb } from '@/mocks/store/db'
 import { countBy, filterNfts, priceRange, sortNfts, toDetail, toSummary } from '@/mocks/store/nfts'
 
+const RELATED_LIMIT = 10
+
 export const nftHandlers = [
   http.get('/api/nfts/featured', () => {
     const { nfts } = getDb()
@@ -52,6 +54,18 @@ export const nftHandlers = [
       },
     }
     return HttpResponse.json(body)
+  }),
+
+  http.get('/api/nfts/:id/related', ({ params }) => {
+    const { nfts } = getDb()
+    const current = nfts[String(params.id)]
+    if (!current) return apiError('NOT_FOUND', 'NFT não encontrado.')
+    const others = Object.values(nfts).filter((nft) => nft.id !== current.id)
+    const related = [
+      ...others.filter((nft) => nft.collectionName === current.collectionName),
+      ...others.filter((nft) => nft.collectionName !== current.collectionName && nft.network === current.network),
+    ].slice(0, RELATED_LIMIT)
+    return HttpResponse.json(related.map(toSummary))
   }),
 
   http.get('/api/nfts/:id', ({ params }) => {

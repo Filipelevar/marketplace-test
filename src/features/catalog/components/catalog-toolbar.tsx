@@ -18,7 +18,7 @@ export function CatalogToolbar({ search, onChange }: CatalogToolbarProps) {
 
   return (
     <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-      <div role="group" aria-label="Filtrar por lista" className="flex gap-5 overflow-x-auto">
+      <div role="group" aria-label="Filtrar por lista" className="relative flex gap-5 overflow-x-auto">
         {CATALOG_TABS.map((tab) => {
           const active = tab.slug === activeTab
           return (

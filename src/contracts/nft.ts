@@ -102,6 +102,14 @@ export type NftSummary = {
   version: number
 }
 
+export type NftReview = {
+  id: string
+  author: string
+  rating: number
+  comment: string
+  createdAt: string
+}
+
 export type NftDetail = NftSummary & {
   description: string
   story: string[]
@@ -111,9 +119,16 @@ export type NftDetail = NftSummary & {
   royaltyPercent: number
   attributes: string[]
   rating: { average: number; count: number }
+  reviews: NftReview[]
   editions: NftEdition[]
   gallery: NftImage[]
 }
+
+export const nftDetailSearchSchema = z.object({
+  edition: z.string().max(20).optional().catch(undefined),
+})
+
+export type NftDetailSearch = z.infer<typeof nftDetailSearchSchema>
 
 export type FacetCount<T extends string> = { slug: T; count: number }
 

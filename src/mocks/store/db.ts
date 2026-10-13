@@ -2,7 +2,7 @@ import { createNftFixtures, type NftRecord } from '@/mocks/fixtures/nfts'
 import { readMockConfig, type ScenarioId } from '@/mocks/scenarios'
 
 const STORAGE_KEY = 'kurio:mock-db'
-const SCHEMA_VERSION = 2
+const SCHEMA_VERSION = 3
 
 export type MockDb = {
   schemaVersion: number

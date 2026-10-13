@@ -8,7 +8,9 @@ import {
   TwitterIcon,
   YoutubeIcon,
 } from '@/components/icons/social-icons'
+import { cn } from 'cn'
 import { NewsletterForm } from '@/features/newsletter/newsletter-form'
+import { useMobileBottomBar } from './use-mobile-bottom-bar'
 
 const SOCIAL_LINKS = [
   { label: 'Facebook', href: 'https://www.facebook.com', icon: FacebookIcon },
@@ -78,8 +80,10 @@ const LINK_GROUPS: { title: string; links: FooterLink[] }[] = [
 ]
 
 export function SiteFooter() {
+  const bottomBar = useMobileBottomBar()
+
   return (
-    <footer className="page-container mt-24 pb-28 lg:pb-6">
+    <footer className={cn('page-container mt-24 lg:pb-6', bottomBar === 'purchase' ? 'pb-48' : 'pb-28')}>
       <section aria-labelledby="footer-highlights" className="bg-card p-6 sm:p-8">
         <h2 id="footer-highlights" className="sr-only">
           Destaques da Kurio

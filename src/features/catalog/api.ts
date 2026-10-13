@@ -1,5 +1,5 @@
 import { keepPreviousData, queryOptions } from '@tanstack/react-query'
-import type { CatalogSearch, FeaturedNftsResponse, NftDetail, NftListResponse } from '@/contracts/nft'
+import type { CatalogSearch, FeaturedNftsResponse, NftDetail, NftListResponse, NftSummary } from '@/contracts/nft'
 import { http } from '@/lib/http'
 
 export const nftKeys = {
@@ -8,6 +8,7 @@ export const nftKeys = {
   list: (search: CatalogSearch) => [...nftKeys.lists(), search] as const,
   details: () => [...nftKeys.all, 'detail'] as const,
   detail: (id: string) => [...nftKeys.details(), id] as const,
+  related: (id: string) => [...nftKeys.detail(id), 'related'] as const,
   featured: () => [...nftKeys.all, 'featured'] as const,
 }
 
@@ -42,6 +43,17 @@ export function nftDetailQuery(id: string) {
       const { data } = await http.get<NftDetail>(`/nfts/${encodeURIComponent(id)}`, { signal })
       return data
     },
+  })
+}
+
+export function relatedNftsQuery(id: string) {
+  return queryOptions({
+    queryKey: nftKeys.related(id),
+    queryFn: async ({ signal }) => {
+      const { data } = await http.get<NftSummary[]>(`/nfts/${encodeURIComponent(id)}/related`, { signal })
+      return data
+    },
+    staleTime: 5 * 60_000,
   })
 }
 

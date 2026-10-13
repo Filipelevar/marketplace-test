@@ -31,6 +31,7 @@ export function toDetail(record: NftRecord): NftDetail {
     royaltyPercent: record.royaltyPercent,
     attributes: record.attributes,
     rating: record.rating,
+    reviews: record.reviews,
     editions: record.editions,
     gallery: record.gallery,
   }

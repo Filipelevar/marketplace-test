@@ -70,6 +70,15 @@ const COLLECTION_NAME: Record<Artwork, string> = {
 }
 
 const CREATORS = ['Nova Sato', 'Iris Calloway', 'Teo Marques', 'Ama Okafor']
+
+const FALLBACK_REVIEW = { author: 'lumen.eth', rating: 5, comment: 'Acabamento impecável e procedência clara. A arte em alta resolução vale cada detalhe.' }
+
+const REVIEW_TEMPLATES = [
+  FALLBACK_REVIEW,
+  { author: 'colecionador_br', rating: 5, comment: 'Entrega rápida na carteira e atributos bem documentados nos metadados.' },
+  { author: 'mira.art', rating: 4, comment: 'Peça linda, só gostaria de mais edições abertas disponíveis.' },
+  { author: 'pixelnomade', rating: 5, comment: 'Uma das melhores obras da coleção. A comunidade dos holders é muito ativa.' },
+]
 const REFERENCE_DATE = Date.UTC(2026, 9, 1, 12, 0, 0)
 const DAY_MS = 86_400_000
 export const SOLD_OUT_NFT_ID = 'obsidian-lord-099'
@@ -131,6 +140,16 @@ function buildRecord([name, artwork, priceEth, compareAtPriceEth, rare]: Fixture
     royaltyPercent: 5,
     attributes: rare ? [...ATTRIBUTES[artwork], 'Raro'] : ATTRIBUTES[artwork],
     rating: { average: (48 - (index % 5)) / 10, count: 19 + ((index * 5) % 40) },
+    reviews: [0, 1, 2].map((offset) => {
+      const template = REVIEW_TEMPLATES[(index + offset) % REVIEW_TEMPLATES.length] ?? FALLBACK_REVIEW
+      return {
+        id: `${id}-review-${offset + 1}`,
+        author: template.author,
+        rating: template.rating,
+        comment: template.comment,
+        createdAt: new Date(REFERENCE_DATE - (index + offset * 3 + 1) * DAY_MS).toISOString(),
+      }
+    }),
     editions: nftEditions,
     gallery: [main, main, main, main],
     isNewRelease: index < 12,
