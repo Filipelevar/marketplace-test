@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as NftsNftIdRouteImport } from './routes/nfts/$nftId'
+import { Route as PocSocketRouteImport } from './routes/poc.socket'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -22,31 +23,40 @@ const NftsNftIdRoute = NftsNftIdRouteImport.update({
   path: '/nfts/$nftId',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PocSocketRoute = PocSocketRouteImport.update({
+  id: '/poc/socket',
+  path: '/poc/socket',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/nfts/$nftId': typeof NftsNftIdRoute
+  '/poc/socket': typeof PocSocketRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/nfts/$nftId': typeof NftsNftIdRoute
+  '/poc/socket': typeof PocSocketRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/nfts/$nftId': typeof NftsNftIdRoute
+  '/poc/socket': typeof PocSocketRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/nfts/$nftId'
+  fullPaths: '/' | '/nfts/$nftId' | '/poc/socket'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/nfts/$nftId'
-  id: '__root__' | '/' | '/nfts/$nftId'
+  to: '/' | '/nfts/$nftId' | '/poc/socket'
+  id: '__root__' | '/' | '/nfts/$nftId' | '/poc/socket'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   NftsNftIdRoute: typeof NftsNftIdRoute
+  PocSocketRoute: typeof PocSocketRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -65,12 +75,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof NftsNftIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/poc/socket': {
+      id: '/poc/socket'
+      path: '/poc/socket'
+      fullPath: '/poc/socket'
+      preLoaderRoute: typeof PocSocketRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   NftsNftIdRoute: NftsNftIdRoute,
+  PocSocketRoute: PocSocketRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
