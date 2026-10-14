@@ -4,8 +4,8 @@ import { isApiErrorCode, readJson } from '@/mocks/http'
 import { commit, resetDb } from '@/mocks/store/db'
 import { armDropNextOrderResponse, setNextOrderOutcome } from '@/mocks/store/checkout'
 import { toDetail, updateNft } from '@/mocks/store/nfts'
-import { isEthString } from '@/lib/eth'
-import { queueFailure } from './network'
+import { isEthString } from '@/utils/EthUtils'
+import { queueFailure } from '@/mocks/handlers/network'
 import { dropAllConnections, emitToClients } from '@/mocks/socket/server'
 
 type EmitRequestBody = {

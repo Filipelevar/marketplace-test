@@ -2,10 +2,10 @@ import { useQuery } from '@tanstack/react-query'
 import { SlidersHorizontal } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
-import { nftListQuery } from '../api'
-import { useCatalogSearch } from '../use-catalog-search'
-import { CatalogFilters } from './catalog-filters'
-import { CatalogSearchField } from './catalog-search-field'
+import { nftListQuery } from '@/hooks/useNfts'
+import { useCatalogSearch } from '@/hooks/useCatalogSearch'
+import { CatalogFilters } from '@/pages/home/catalog/filters'
+import { CatalogSearchField } from '@/components/inputs/search-field'
 
 export function CatalogMobileBar() {
   const { search, updateFilters, clearFilters } = useCatalogSearch()

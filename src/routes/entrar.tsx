@@ -1,7 +1,7 @@
 import { createFileRoute, redirect } from '@tanstack/react-router'
-import { AuthScreen } from '@/features/auth/components/auth-screen'
-import { authSearchSchema, safeRedirect } from '@/features/auth/redirect'
-import { readStoredSession } from '@/features/auth/session-storage'
+import { LoginPage } from '@/pages/auth'
+import { authSearchSchema, safeRedirect } from '@/utils/RedirectUtils'
+import { readStoredSession } from '@/stores/session-store'
 
 export const Route = createFileRoute('/entrar')({
   validateSearch: authSearchSchema,
@@ -11,8 +11,3 @@ export const Route = createFileRoute('/entrar')({
   head: () => ({ meta: [{ title: 'Entrar | Kurio' }] }),
   component: LoginPage,
 })
-
-function LoginPage() {
-  const search = Route.useSearch()
-  return <AuthScreen mode="login" search={search} />
-}

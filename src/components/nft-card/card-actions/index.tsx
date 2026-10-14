@@ -1,8 +1,8 @@
 import { Link } from '@tanstack/react-router'
 import { Search, ShoppingCart } from 'lucide-react'
-import type { NftSummary } from '@/contracts/nft'
-import { useAddToCartWithFeedback } from '@/features/cart/use-add-to-cart-feedback'
-import { FavoriteButton } from '@/features/favorites/favorite-button'
+import type { NftSummary } from '@/types/nfts/NftTypes'
+import { useAddToCartWithFeedback } from '@/hooks/useAddToCartFeedback'
+import { FavoriteButton } from '@/components/favorite-button'
 
 const QUICK_ADD_EDITION_ID = 'aberta'
 

@@ -1,5 +1,5 @@
 import { http, HttpResponse } from 'msw'
-import { createOrderSchema, IDEMPOTENCY_HEADER } from '@/contracts/checkout'
+import { createOrderSchema, IDEMPOTENCY_HEADER } from '@/types/checkout/CheckoutTypes'
 import { authenticate } from '@/mocks/auth'
 import { apiError, readJson, validationError } from '@/mocks/http'
 import {

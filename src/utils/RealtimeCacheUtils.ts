@@ -1,13 +1,10 @@
 import type { QueryClient } from '@tanstack/react-query'
-import type { Cart, FavoritesResponse } from '@/contracts/cart'
-import type { Order } from '@/contracts/checkout'
-import type { FeaturedNftsResponse, NftDetail, NftListResponse, NftSummary } from '@/contracts/nft'
-import type { NftUpdatedEvent, OrderUpdatedEvent, RealtimeEvent } from '@/contracts/realtime'
-import { cartKeys } from '@/features/cart/keys'
-import { nftKeys } from '@/features/catalog/api'
-import { favoriteKeys } from '@/features/favorites/keys'
-import { orderKeys } from '@/features/checkout/keys'
-import type { CartPriceNotice } from './bus'
+import type { Cart, FavoritesResponse } from '@/types/cart/CartTypes'
+import type { Order } from '@/types/checkout/CheckoutTypes'
+import type { FeaturedNftsResponse, NftDetail, NftListResponse, NftSummary } from '@/types/nfts/NftTypes'
+import type { NftUpdatedEvent, OrderUpdatedEvent, RealtimeEvent } from '@/types/realtime/RealtimeTypes'
+import type { CartPriceNotice } from '@/services/socket/realtime-bus'
+import { cartKeys, favoriteKeys, nftKeys, orderKeys } from '@/hooks/queryKeys'
 
 const MAX_REMEMBERED_EVENTS = 500
 

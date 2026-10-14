@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Search } from 'lucide-react'
 import { cn } from 'cn'
-import type { NftImage } from '@/contracts/nft'
+import type { NftImage } from '@/types/nfts/NftTypes'
 import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
 
 type NftGalleryProps = {

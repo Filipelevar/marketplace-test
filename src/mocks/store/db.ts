@@ -1,8 +1,8 @@
 import { createNftFixtures, type NftRecord } from '@/mocks/fixtures/nfts'
 import { createUserFixtures, FIXTURE_FAVORITES, type UserRecord } from '@/mocks/fixtures/users'
 import { createWalletFixtures, type WalletRecord } from '@/mocks/fixtures/wallets'
-import type { CheckoutQuote, Order } from '@/contracts/checkout'
-import type { WalletConnection } from '@/contracts/wallet'
+import type { CheckoutQuote, Order } from '@/types/checkout/CheckoutTypes'
+import type { WalletConnection } from '@/types/wallets/WalletTypes'
 import { readMockConfig, type ScenarioId } from '@/mocks/scenarios'
 
 const STORAGE_KEY = 'kurio:mock-db'

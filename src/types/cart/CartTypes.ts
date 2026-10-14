@@ -1,6 +1,6 @@
 import { z } from 'zod'
-import type { EthString } from '@/lib/eth'
-import type { NftImage, NftSummary } from './nft'
+import type { EthString } from '@/utils/EthUtils'
+import type { NftImage, NftSummary } from '@/types/nfts/NftTypes'
 
 export const NETWORK_FEE_ETH = '0.016'
 

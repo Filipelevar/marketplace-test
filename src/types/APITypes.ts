@@ -1,4 +1,4 @@
-import type { CheckoutQuote } from './checkout'
+import type { CheckoutQuote } from '@/types/checkout/CheckoutTypes'
 
 export type ApiErrorCode =
   | 'VALIDATION_ERROR'

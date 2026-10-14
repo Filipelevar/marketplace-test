@@ -1,4 +1,5 @@
-import { COLLECTIONS, NETWORKS, type NftDetail, type NftEdition, type NftImage } from '@/contracts/nft'
+import { type NftDetail, type NftEdition, type NftImage } from '@/types/nfts/NftTypes'
+import { COLLECTIONS, NETWORKS } from '@/enums/NftEnums'
 
 export type Artwork = 'emerald' | 'nomad' | 'golden' | 'baron'
 

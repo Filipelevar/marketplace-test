@@ -1,8 +1,8 @@
 import { useQuery } from '@tanstack/react-query'
 import { Link } from '@tanstack/react-router'
 import { Skeleton } from '@/components/ui/skeleton'
-import { displayEth } from '@/lib/eth'
-import { featuredNftsQuery } from '../api'
+import { displayEth } from '@/utils/EthUtils'
+import { featuredNftsQuery } from '@/hooks/useNfts'
 
 export function SpotlightCard() {
   const { data, isPending, isError } = useQuery(featuredNftsQuery())

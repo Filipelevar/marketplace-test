@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { useNavigate } from '@tanstack/react-router'
 import { Search } from 'lucide-react'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog'
-import { CatalogSearchField } from '@/features/catalog/components/catalog-search-field'
+import { CatalogSearchField } from '@/components/inputs/search-field'
 
 export function HeaderSearch() {
   const [open, setOpen] = useState(false)

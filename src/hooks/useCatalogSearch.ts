@@ -1,5 +1,5 @@
 import { getRouteApi } from '@tanstack/react-router'
-import type { CatalogSearch } from '@/contracts/nft'
+import type { CatalogSearch } from '@/types/nfts/NftTypes'
 
 const homeRoute = getRouteApi('/')
 

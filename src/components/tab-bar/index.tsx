@@ -2,9 +2,9 @@ import type { ComponentType, SVGProps } from 'react'
 import { Link, useLocation } from '@tanstack/react-router'
 import { Heart, House, ScanLine, ShoppingCart, User } from 'lucide-react'
 import { cn } from 'cn'
-import { cartLabel, useCartCount } from '@/features/cart/cart-count'
-import { CartBadge } from './cart-badge'
-import { useMobileBottomBar } from './use-mobile-bottom-bar'
+import { cartLabel, useCartCount } from '@/hooks/useCartCount'
+import { CartBadge } from '@/components/cart-badge'
+import { useMobileBottomBar } from '@/hooks/useMobileBottomBar'
 
 type TabProps = {
   to: '/' | '/favoritos' | '/carrinho' | '/perfil'

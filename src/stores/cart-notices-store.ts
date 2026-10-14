@@ -1,5 +1,5 @@
 import { useSyncExternalStore } from 'react'
-import type { CartPriceNotice } from './bus'
+import type { CartPriceNotice } from '@/services/socket/realtime-bus'
 
 let notices: CartPriceNotice[] = []
 const listeners = new Set<() => void>()

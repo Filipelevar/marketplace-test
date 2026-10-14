@@ -1,24 +1,17 @@
 import { queryOptions, useMutation, useQuery, useQueryClient, type QueryClient } from '@tanstack/react-query'
-import type { CurrentSession, LoginInput, RegisterInput, SessionResponse, User } from '@/contracts/auth'
-import type { Cart } from '@/contracts/cart'
-import { http } from '@/lib/http'
-import { clearGuestCartId, readGuestCartId } from '@/features/cart/cart-id-storage'
-import { cartKeys } from '@/features/cart/keys'
-import { clearCheckoutStorage } from '@/features/checkout/storage'
-import { clearPrivateData } from './private-data'
-import { clearStoredSession, useStoredSession, writeStoredSession } from './session-storage'
-
-export const sessionKeys = {
-  current: (token: string) => ['session', token] as const,
-}
+import type { SessionResponse, User } from '@/types/auth/AuthTypes'
+import { getSession, login, logout, register } from '@/services/auth/AuthServices'
+import { mergeGuestCart } from '@/services/cart/CartServices'
+import { clearGuestCartId, readGuestCartId } from '@/stores/guest-cart-store'
+import { clearCheckoutStorage } from '@/stores/checkout-store'
+import { clearStoredSession, useStoredSession, writeStoredSession } from '@/stores/session-store'
+import { clearPrivateData } from '@/utils/PrivateDataUtils'
+import { cartKeys, sessionKeys } from '@/hooks/queryKeys'
 
 export function sessionQuery(token: string) {
   return queryOptions({
     queryKey: sessionKeys.current(token),
-    queryFn: async ({ signal }) => {
-      const { data } = await http.get<CurrentSession>('/auth/session', { signal })
-      return data
-    },
+    queryFn: ({ signal }) => getSession(signal),
     staleTime: 5 * 60_000,
     retry: false,
   })
@@ -45,8 +38,8 @@ async function completeSignIn(queryClient: QueryClient, session: SessionResponse
 
   if (readGuestCartId()) {
     try {
-      const { data } = await http.post<Cart>('/cart/merge')
-      queryClient.setQueryData(cartKeys.owner(session.user.id), data)
+      const cart = await mergeGuestCart()
+      queryClient.setQueryData(cartKeys.owner(session.user.id), cart)
       clearGuestCartId()
     } catch {
       return
@@ -63,7 +56,7 @@ export function signOutLocally(queryClient: QueryClient) {
 export function useLogin() {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: async (input: LoginInput) => (await http.post<SessionResponse>('/auth/login', input)).data,
+    mutationFn: login,
     onSuccess: (session) => completeSignIn(queryClient, session),
   })
 }
@@ -71,7 +64,7 @@ export function useLogin() {
 export function useRegister() {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: async (input: RegisterInput) => (await http.post<SessionResponse>('/auth/register', input)).data,
+    mutationFn: register,
     onSuccess: (session) => completeSignIn(queryClient, session),
   })
 }
@@ -79,9 +72,7 @@ export function useRegister() {
 export function useLogout() {
   const queryClient = useQueryClient()
   return useMutation({
-    mutationFn: async () => {
-      await http.post('/auth/logout').catch(() => undefined)
-    },
+    mutationFn: () => logout().catch(() => undefined),
     onSettled: () => signOutLocally(queryClient),
   })
 }

@@ -1,11 +1,6 @@
 import { z } from 'zod'
-import type { NetworkSlug } from './nft'
-
-export const WALLET_PROVIDERS = [
-  { slug: 'metamask', label: 'MetaMask' },
-  { slug: 'walletconnect', label: 'WalletConnect' },
-  { slug: 'coinbase', label: 'Coinbase Wallet' },
-] as const
+import type { NetworkSlug } from '@/types/nfts/NftTypes'
+import { WALLET_PROVIDERS } from '@/enums/WalletEnums'
 
 export type WalletProvider = (typeof WALLET_PROVIDERS)[number]['slug']
 

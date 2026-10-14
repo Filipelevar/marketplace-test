@@ -1,8 +1,8 @@
-import { QUOTE_TTL_MS, type CheckoutQuote, type CollectorInput, type Order, type QuoteIssue } from '@/contracts/checkout'
+import { QUOTE_TTL_MS, type CheckoutQuote, type CollectorInput, type Order, type QuoteIssue } from '@/types/checkout/CheckoutTypes'
 import { readMockConfig } from '@/mocks/scenarios'
-import { buildCart, resolveCart } from './cart'
-import { commit, getDb, type OrderRecord, type WalletConnectionRecord } from './db'
-import { notifyNftChanged, notifyOrderChanged } from './events'
+import { buildCart, resolveCart } from '@/mocks/store/cart'
+import { commit, getDb, type OrderRecord, type WalletConnectionRecord } from '@/mocks/store/db'
+import { notifyNftChanged, notifyOrderChanged } from '@/mocks/store/events'
 
 export const PAYMENT_PROCESSING_MS = 2500
 

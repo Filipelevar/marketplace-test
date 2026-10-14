@@ -1,8 +1,8 @@
 import { useId, useState } from 'react'
 import { Button } from '@/components/ui/button'
 import { Slider } from '@/components/ui/slider'
-import type { EthString } from '@/lib/eth'
-import { ethToHundredths, hundredthsToEth, localizedEth } from '../format'
+import type { EthString } from '@/utils/EthUtils'
+import { ethToHundredths, hundredthsToEth, localizedEth } from '@/utils/FormatUtils'
 
 type PriceFilterProps = {
   bounds: { min: EthString; max: EthString }

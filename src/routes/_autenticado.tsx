@@ -1,5 +1,5 @@
 import { createFileRoute, Outlet, redirect } from '@tanstack/react-router'
-import { readStoredSession } from '@/features/auth/session-storage'
+import { readStoredSession } from '@/stores/session-store'
 
 export const Route = createFileRoute('/_autenticado')({
   beforeLoad: ({ location }) => {

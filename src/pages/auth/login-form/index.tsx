@@ -1,11 +1,11 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
-import { loginSchema, type LoginInput } from '@/contracts/auth'
-import { FormField, PasswordField } from '@/components/form-field'
+import { loginSchema, type LoginInput } from '@/types/auth/AuthTypes'
+import { FormField, PasswordField } from '@/components/inputs/form-field'
 import { Button } from '@/components/ui/button'
-import { getApiError, getApiErrorMessage } from '@/lib/api-error'
-import { useLogin } from '../api'
+import { getApiError, getApiErrorMessage } from '@/utils/ApiErrorUtils'
+import { useLogin } from '@/hooks/useAuth'
 
 export function LoginForm({ onAuthenticated }: { onAuthenticated: () => void }) {
   const login = useLogin()

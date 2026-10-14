@@ -1,8 +1,8 @@
 import { z } from 'zod'
-import type { EthString } from '@/lib/eth'
-import type { AppliedCoupon, CartTotals } from './cart'
-import type { NftImage, NetworkSlug } from './nft'
-import type { WalletProvider } from './wallet'
+import type { EthString } from '@/utils/EthUtils'
+import type { AppliedCoupon, CartTotals } from '@/types/cart/CartTypes'
+import type { NftImage, NetworkSlug } from '@/types/nfts/NftTypes'
+import type { WalletProvider } from '@/types/wallets/WalletTypes'
 
 export const QUOTE_TTL_MS = 5 * 60_000
 export const IDEMPOTENCY_HEADER = 'Idempotency-Key'

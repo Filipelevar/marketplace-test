@@ -1,17 +1,13 @@
 import { queryOptions, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import type { ConnectWalletInput, Wallet, WalletConnection, WalletInput } from '@/contracts/wallet'
-import { http } from '@/lib/http'
-import { useSession } from '@/features/auth/api'
-
-export const walletKeys = {
-  all: ['wallets'] as const,
-  user: (userId: string) => [...walletKeys.all, userId] as const,
-}
+import type { ConnectWalletInput, WalletInput } from '@/types/wallets/WalletTypes'
+import { connectWallet, createWallet, disconnectWallet, getWallets, updateWallet } from '@/services/wallets/WalletServices'
+import { useSession } from '@/hooks/useAuth'
+import { walletKeys } from '@/hooks/queryKeys'
 
 export function walletsQuery(userId: string) {
   return queryOptions({
     queryKey: walletKeys.user(userId),
-    queryFn: async ({ signal }) => (await http.get<Wallet[]>('/wallets', { signal })).data,
+    queryFn: ({ signal }) => getWallets(signal),
   })
 }
 
@@ -24,23 +20,17 @@ export function useSaveWallet() {
   const queryClient = useQueryClient()
   const session = useSession()
   return useMutation({
-    mutationFn: async ({ id, input }: { id?: string; input: WalletInput }) =>
-      id ? (await http.patch<Wallet>(`/wallets/${id}`, input)).data : (await http.post<Wallet>('/wallets', input)).data,
+    mutationFn: ({ id, input }: { id?: string; input: WalletInput }) => (id ? updateWallet(id, input) : createWallet(input)),
     onSuccess: () => queryClient.invalidateQueries({ queryKey: walletKeys.user(session.user?.id ?? '') }),
   })
 }
 
 export function useConnectWallet() {
   return useMutation({
-    mutationFn: async ({ walletId, ...input }: ConnectWalletInput & { walletId: string }) =>
-      (await http.post<WalletConnection>(`/wallets/${walletId}/connect`, input)).data,
+    mutationFn: ({ walletId, ...input }: ConnectWalletInput & { walletId: string }) => connectWallet(walletId, input),
   })
 }
 
 export function useDisconnectWallet() {
-  return useMutation({
-    mutationFn: async (connectionId: string) => {
-      await http.delete(`/wallet-connections/${connectionId}`)
-    },
-  })
+  return useMutation({ mutationFn: disconnectWallet })
 }

@@ -1,6 +1,7 @@
 import { useId } from 'react'
 import { cn } from 'cn'
-import { CATALOG_SORTS, CATALOG_TABS, type CatalogSearch, type CatalogSort } from '@/contracts/nft'
+import { type CatalogSearch, type CatalogSort } from '@/types/nfts/NftTypes'
+import { CATALOG_SORTS, CATALOG_TABS } from '@/enums/NftEnums'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 
 type CatalogToolbarProps = {

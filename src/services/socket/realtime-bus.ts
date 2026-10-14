@@ -1,4 +1,4 @@
-import type { EthString } from '@/lib/eth'
+import type { EthString } from '@/utils/EthUtils'
 
 export type CartPriceNotice = {
   nftId: string

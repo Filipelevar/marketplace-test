@@ -1,11 +1,11 @@
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
-import { registerSchema, type RegisterInput } from '@/contracts/auth'
-import { FormField, PasswordField } from '@/components/form-field'
+import { registerSchema, type RegisterInput } from '@/types/auth/AuthTypes'
+import { FormField, PasswordField } from '@/components/inputs/form-field'
 import { Button } from '@/components/ui/button'
-import { getApiError, getApiErrorMessage } from '@/lib/api-error'
-import { useRegister } from '../api'
+import { getApiError, getApiErrorMessage } from '@/utils/ApiErrorUtils'
+import { useRegister } from '@/hooks/useAuth'
 
 const FIELDS = ['username', 'email', 'password', 'confirmPassword'] as const
 

@@ -1,5 +1,5 @@
 import { http, HttpResponse } from 'msw'
-import type { FavoritesResponse } from '@/contracts/cart'
+import type { FavoritesResponse } from '@/types/cart/CartTypes'
 import { authenticate } from '@/mocks/auth'
 import { apiError } from '@/mocks/http'
 import { commit, getDb } from '@/mocks/store/db'

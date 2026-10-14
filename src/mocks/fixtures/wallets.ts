@@ -1,4 +1,4 @@
-import type { Wallet } from '@/contracts/wallet'
+import type { Wallet } from '@/types/wallets/WalletTypes'
 
 export type WalletRecord = Wallet & { userId: string }
 

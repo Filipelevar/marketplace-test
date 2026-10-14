@@ -1,13 +1,13 @@
 import { ShoppingCart } from 'lucide-react'
-import type { NftDetail, NftEdition } from '@/contracts/nft'
+import type { NftDetail, NftEdition } from '@/types/nfts/NftTypes'
 import { QuantityStepper } from '@/components/quantity-stepper'
 import { RatingStars } from '@/components/rating-stars'
 import { Button } from '@/components/ui/button'
-import { displayEth } from '@/lib/eth'
-import { FavoriteButton } from '@/features/favorites/favorite-button'
-import { maxQuantityFor } from '../editions'
-import { EditionPicker } from './edition-picker'
-import { ShareLinks } from './share-links'
+import { displayEth } from '@/utils/EthUtils'
+import { FavoriteButton } from '@/components/favorite-button'
+import { maxQuantityFor } from '@/utils/EditionUtils'
+import { EditionPicker } from '@/pages/nft-detail/edition-picker'
+import { ShareLinks } from '@/pages/nft-detail/share-links'
 
 type NftPurchasePanelProps = {
   nft: NftDetail

@@ -1,4 +1,4 @@
-import { SESSION_TTL_MS, type SessionResponse, type User } from '@/contracts/auth'
+import { SESSION_TTL_MS, type SessionResponse, type User } from '@/types/auth/AuthTypes'
 import type { UserRecord } from '@/mocks/fixtures/users'
 import { apiError } from '@/mocks/http'
 import { commit, getDb } from '@/mocks/store/db'

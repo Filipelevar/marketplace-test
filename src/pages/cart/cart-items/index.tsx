@@ -1,11 +1,11 @@
 import { Link } from '@tanstack/react-router'
 import { Trash2 } from 'lucide-react'
 import { toast } from 'sonner'
-import type { CartItem } from '@/contracts/cart'
+import type { CartItem } from '@/types/cart/CartTypes'
 import { QuantityStepper } from '@/components/quantity-stepper'
-import { getApiErrorMessage } from '@/lib/api-error'
-import { displayEth } from '@/lib/eth'
-import { useRemoveCartItem, useUpdateCartItem } from '../api'
+import { getApiErrorMessage } from '@/utils/ApiErrorUtils'
+import { displayEth } from '@/utils/EthUtils'
+import { useRemoveCartItem, useUpdateCartItem } from '@/hooks/useCart'
 
 function useItemActions(item: CartItem) {
   const update = useUpdateCartItem()

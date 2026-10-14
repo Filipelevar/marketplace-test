@@ -1,9 +1,9 @@
 import { Heart } from 'lucide-react'
 import { cn } from 'cn'
-import type { NftSummary } from '@/contracts/nft'
+import type { NftSummary } from '@/types/nfts/NftTypes'
 import { Button } from '@/components/ui/button'
-import { useRequireAuth } from '@/features/auth/use-require-auth'
-import { useIsFavorite, useToggleFavorite } from './api'
+import { useRequireAuth } from '@/hooks/useRequireAuth'
+import { useIsFavorite, useToggleFavorite } from '@/hooks/useFavorites'
 
 type FavoriteButtonProps = {
   nft: NftSummary

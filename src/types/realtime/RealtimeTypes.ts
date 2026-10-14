@@ -37,11 +37,6 @@ export type NftUpdatedEvent = z.infer<typeof nftUpdatedEventSchema>
 export type OrderUpdatedEvent = z.infer<typeof orderUpdatedEventSchema>
 export type RealtimeEvent = NftUpdatedEvent | OrderUpdatedEvent
 
-export const REALTIME_EVENTS = {
-  nftUpdated: 'nft.updated',
-  orderUpdated: 'order.updated',
-} as const
-
 export function eventId(resourceType: 'nft' | 'order', resourceId: string, version: number) {
   return `${resourceType}:${resourceId}:v${version}`
 }

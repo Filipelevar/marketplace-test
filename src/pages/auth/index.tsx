@@ -1,15 +1,18 @@
 import type { ReactNode } from 'react'
-import { Link, useRouter } from '@tanstack/react-router'
+import { getRouteApi, Link, useRouter } from '@tanstack/react-router'
 import { X } from 'lucide-react'
 import { toast } from 'sonner'
 import { cn } from 'cn'
 import googleLogo from '@/assets/brand/brand-google.svg'
 import facebookLogo from '@/assets/brand/brand-facebook.svg'
-import { safeRedirect, type AuthSearch } from '../redirect'
-import { LoginForm } from './login-form'
-import { RegisterForm } from './register-form'
+import { safeRedirect, type AuthSearch } from '@/utils/RedirectUtils'
+import { LoginForm } from '@/pages/auth/login-form'
+import { RegisterForm } from '@/pages/auth/register-form'
 
 type AuthMode = 'login' | 'register'
+
+const loginRoute = getRouteApi('/entrar')
+const registerRoute = getRouteApi('/cadastro')
 
 function SocialButtons() {
   const notAvailable = () => toast.info('Login social não está disponível nesta demonstração.')
@@ -54,7 +57,17 @@ function ModeTabs({ mode, search }: { mode: AuthMode; search: AuthSearch }) {
   )
 }
 
-export function AuthScreen({ mode, search }: { mode: AuthMode; search: AuthSearch }) {
+export function LoginPage() {
+  const search = loginRoute.useSearch()
+  return <AuthScreen mode="login" search={search} />
+}
+
+export function RegisterPage() {
+  const search = registerRoute.useSearch()
+  return <AuthScreen mode="register" search={search} />
+}
+
+function AuthScreen({ mode, search }: { mode: AuthMode; search: AuthSearch }) {
   const router = useRouter()
   const redirectTo = safeRedirect(search.redirect)
 

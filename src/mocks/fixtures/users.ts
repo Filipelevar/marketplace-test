@@ -1,4 +1,4 @@
-import type { User } from '@/contracts/auth'
+import type { User } from '@/types/auth/AuthTypes'
 
 export type UserRecord = User & {
   passwordHash: string

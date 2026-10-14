@@ -1,6 +1,6 @@
 import { RefreshCw, X } from 'lucide-react'
-import { displayEth } from '@/lib/eth'
-import { clearCartNotices, useCartNotices } from '@/features/realtime/cart-notices'
+import { displayEth } from '@/utils/EthUtils'
+import { clearCartNotices, useCartNotices } from '@/stores/cart-notices-store'
 
 export function CartChangeNotices() {
   const notices = useCartNotices()

@@ -1,18 +1,16 @@
 import { queryOptions, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
-import type { FavoritesResponse } from '@/contracts/cart'
-import type { NftSummary } from '@/contracts/nft'
-import { getApiErrorMessage } from '@/lib/api-error'
-import { http } from '@/lib/http'
-import { useSession } from '@/features/auth/api'
-import { favoriteKeys } from './keys'
-
-export { favoriteKeys }
+import type { FavoritesResponse } from '@/types/cart/CartTypes'
+import type { NftSummary } from '@/types/nfts/NftTypes'
+import { addFavorite, getFavorites, removeFavorite } from '@/services/favorites/FavoriteServices'
+import { getApiErrorMessage } from '@/utils/ApiErrorUtils'
+import { useSession } from '@/hooks/useAuth'
+import { favoriteKeys } from '@/hooks/queryKeys'
 
 export function favoritesQuery(userId: string) {
   return queryOptions({
     queryKey: favoriteKeys.user(userId),
-    queryFn: async ({ signal }) => (await http.get<FavoritesResponse>('/favorites', { signal })).data,
+    queryFn: ({ signal }) => getFavorites(signal),
   })
 }
 
@@ -35,11 +33,7 @@ export function useToggleFavorite() {
   const key = favoriteKeys.user(session.user?.id ?? '')
 
   return useMutation({
-    mutationFn: async ({ nft, favorite }: ToggleFavoriteInput) => {
-      const url = `/favorites/${encodeURIComponent(nft.id)}`
-      if (favorite) await http.put(url)
-      else await http.delete(url)
-    },
+    mutationFn: ({ nft, favorite }: ToggleFavoriteInput) => (favorite ? addFavorite(nft.id) : removeFavorite(nft.id)),
     onMutate: async ({ nft, favorite }) => {
       await queryClient.cancelQueries({ queryKey: key })
       const previous = queryClient.getQueryData<FavoritesResponse>(key)

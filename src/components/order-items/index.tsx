@@ -1,5 +1,5 @@
-import type { QuoteItem } from '@/contracts/checkout'
-import { displayEth } from '@/lib/eth'
+import type { QuoteItem } from '@/types/checkout/CheckoutTypes'
+import { displayEth } from '@/utils/EthUtils'
 
 export function OrderItems({ items, caption }: { items: QuoteItem[]; caption: string }) {
   return (

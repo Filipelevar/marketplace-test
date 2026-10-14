@@ -1,5 +1,5 @@
-import type { CollectorInput } from '@/contracts/checkout'
-import type { WalletConnection } from '@/contracts/wallet'
+import type { CollectorInput } from '@/types/checkout/CheckoutTypes'
+import type { WalletConnection } from '@/types/wallets/WalletTypes'
 
 const ATTEMPT_KEY = 'kurio:checkout-attempt'
 const CONNECTION_KEY = 'kurio:wallet-connection'

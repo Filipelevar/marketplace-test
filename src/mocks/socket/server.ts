@@ -1,6 +1,7 @@
 import { ws, type WebSocketHandlerConnection } from 'msw'
 import { toSocketIo } from '@mswjs/socket.io-binding'
-import { eventId, REALTIME_EVENTS, type NftUpdatedEvent, type OrderUpdatedEvent } from '@/contracts/realtime'
+import { eventId, type NftUpdatedEvent, type OrderUpdatedEvent } from '@/types/realtime/RealtimeTypes'
+import { REALTIME_EVENTS } from '@/enums/RealtimeEnums'
 import type { NftRecord } from '@/mocks/fixtures/nfts'
 import { getDb, type OrderRecord } from '@/mocks/store/db'
 import { onNftChanged, onOrderChanged } from '@/mocks/store/events'

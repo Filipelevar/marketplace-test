@@ -1,7 +1,7 @@
 import { useId, useRef, useState } from 'react'
 import { cn } from 'cn'
-import type { NftSummary } from '@/contracts/nft'
-import { NftCard, NftCardSkeleton } from './nft-card'
+import type { NftSummary } from '@/types/nfts/NftTypes'
+import { NftCard, NftCardSkeleton } from '@/components/nft-card'
 
 type NftCarouselProps = {
   title: string

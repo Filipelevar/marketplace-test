@@ -1,15 +1,16 @@
 import { useEffect } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
-import type { CurrentSession } from '@/contracts/auth'
-import { nftUpdatedEventSchema, orderUpdatedEventSchema, REALTIME_EVENTS } from '@/contracts/realtime'
-import { displayEth } from '@/lib/eth'
-import { sessionKeys } from '@/features/auth/api'
-import { useStoredSession } from '@/features/auth/session-storage'
-import { publishRealtimeNotice } from './bus'
-import { addCartNotice, clearCartNotices } from './cart-notices'
-import { applyNftUpdate, applyOrderUpdate, createEventGate, reconcileWithRest } from './cache-sync'
-import { setRealtimeStatus } from './status'
+import type { CurrentSession } from '@/types/auth/AuthTypes'
+import { nftUpdatedEventSchema, orderUpdatedEventSchema } from '@/types/realtime/RealtimeTypes'
+import { REALTIME_EVENTS } from '@/enums/RealtimeEnums'
+import { displayEth } from '@/utils/EthUtils'
+import { useStoredSession } from '@/stores/session-store'
+import { publishRealtimeNotice } from '@/services/socket/realtime-bus'
+import { addCartNotice, clearCartNotices } from '@/stores/cart-notices-store'
+import { applyNftUpdate, applyOrderUpdate, createEventGate, reconcileWithRest } from '@/utils/RealtimeCacheUtils'
+import { setRealtimeStatus } from '@/stores/realtime-store'
+import { sessionKeys } from '@/hooks/queryKeys'
 
 export function RealtimeSync() {
   const queryClient = useQueryClient()
@@ -20,7 +21,7 @@ export function RealtimeSync() {
     let teardown: (() => void) | null = null
     setRealtimeStatus('connecting')
 
-    void import('@/lib/socket').then(({ createSocket }) => {
+    void import('@/services/socket/SocketService').then(({ createSocket }) => {
       if (disposed) return
       const socket = createSocket(token)
       const accept = createEventGate()

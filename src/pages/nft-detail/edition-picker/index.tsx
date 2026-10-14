@@ -1,6 +1,6 @@
 import { cn } from 'cn'
-import type { NftEdition } from '@/contracts/nft'
-import { editionLabel } from '../editions'
+import type { NftEdition } from '@/types/nfts/NftTypes'
+import { editionLabel } from '@/utils/EditionUtils'
 
 type EditionPickerProps = {
   nftId: string

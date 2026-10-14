@@ -1,37 +1,12 @@
 import { keepPreviousData, queryOptions } from '@tanstack/react-query'
-import type { CatalogSearch, FeaturedNftsResponse, NftDetail, NftListResponse, NftSummary } from '@/contracts/nft'
-import { http } from '@/lib/http'
-
-export const nftKeys = {
-  all: ['nfts'] as const,
-  lists: () => [...nftKeys.all, 'list'] as const,
-  list: (search: CatalogSearch) => [...nftKeys.lists(), search] as const,
-  details: () => [...nftKeys.all, 'detail'] as const,
-  detail: (id: string) => [...nftKeys.details(), id] as const,
-  related: (id: string) => [...nftKeys.detail(id), 'related'] as const,
-  featured: () => [...nftKeys.all, 'featured'] as const,
-}
-
-function toQueryParams(search: CatalogSearch) {
-  return {
-    q: search.q,
-    collections: search.collections?.join(','),
-    networks: search.networks?.join(','),
-    tab: search.tab,
-    sort: search.sort,
-    minPrice: search.minPrice,
-    maxPrice: search.maxPrice,
-    page: search.page,
-  }
-}
+import type { CatalogSearch } from '@/types/nfts/NftTypes'
+import { getFeaturedNfts, getNftById, getNfts, getRelatedNfts } from '@/services/nfts/NftServices'
+import { nftKeys } from '@/hooks/queryKeys'
 
 export function nftListQuery(search: CatalogSearch) {
   return queryOptions({
     queryKey: nftKeys.list(search),
-    queryFn: async ({ signal }) => {
-      const { data } = await http.get<NftListResponse>('/nfts', { params: toQueryParams(search), signal })
-      return data
-    },
+    queryFn: ({ signal }) => getNfts(search, signal),
     placeholderData: keepPreviousData,
   })
 }
@@ -39,20 +14,14 @@ export function nftListQuery(search: CatalogSearch) {
 export function nftDetailQuery(id: string) {
   return queryOptions({
     queryKey: nftKeys.detail(id),
-    queryFn: async ({ signal }) => {
-      const { data } = await http.get<NftDetail>(`/nfts/${encodeURIComponent(id)}`, { signal })
-      return data
-    },
+    queryFn: ({ signal }) => getNftById(id, signal),
   })
 }
 
 export function relatedNftsQuery(id: string) {
   return queryOptions({
     queryKey: nftKeys.related(id),
-    queryFn: async ({ signal }) => {
-      const { data } = await http.get<NftSummary[]>(`/nfts/${encodeURIComponent(id)}/related`, { signal })
-      return data
-    },
+    queryFn: ({ signal }) => getRelatedNfts(id, signal),
     staleTime: 5 * 60_000,
   })
 }
@@ -60,10 +29,7 @@ export function relatedNftsQuery(id: string) {
 export function featuredNftsQuery() {
   return queryOptions({
     queryKey: nftKeys.featured(),
-    queryFn: async ({ signal }) => {
-      const { data } = await http.get<FeaturedNftsResponse>('/nfts/featured', { signal })
-      return data
-    },
+    queryFn: ({ signal }) => getFeaturedNfts(signal),
     staleTime: 5 * 60_000,
   })
 }

@@ -1,4 +1,4 @@
-import { useCart } from './api'
+import { useCart } from '@/hooks/useCart'
 
 export function useCartCount() {
   const { data } = useCart()

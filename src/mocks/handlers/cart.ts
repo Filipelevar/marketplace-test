@@ -1,10 +1,10 @@
 import { http, HttpResponse } from 'msw'
-import { addCartItemSchema, applyCouponSchema, updateCartItemSchema } from '@/contracts/cart'
+import { addCartItemSchema, applyCouponSchema, updateCartItemSchema } from '@/types/cart/CartTypes'
 import { authenticate, identifyRequester } from '@/mocks/auth'
 import { apiError, readJson, validationError } from '@/mocks/http'
 import { CART_ID_HEADER, buildCart, checkCoupon, editionLimit, lineId, resolveCart, touch } from '@/mocks/store/cart'
 import { commit, getDb, type CartRecord } from '@/mocks/store/db'
-import { parseEth } from '@/lib/eth'
+import { parseEth } from '@/utils/EthUtils'
 
 function cartResponse(cart: CartRecord, status = 200) {
   return HttpResponse.json(buildCart(cart), { status })

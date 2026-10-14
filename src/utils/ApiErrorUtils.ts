@@ -1,5 +1,5 @@
 import { isAxiosError } from 'axios'
-import type { ApiErrorBody } from '@/contracts/api-error'
+import type { ApiErrorBody } from '@/types/APITypes'
 
 const NETWORK_ERROR_MESSAGE = 'Não foi possível conectar. Verifique sua conexão e tente novamente.'
 const UNKNOWN_ERROR_MESSAGE = 'Algo deu errado. Tente novamente.'

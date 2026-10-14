@@ -1,33 +1,15 @@
-import type { QueryClient } from '@tanstack/react-query'
-import { createRouter, parseSearchWith, stringifySearchWith } from '@tanstack/react-router'
-import { routeTree } from '@/routeTree.gen'
+import { QueryClientProvider } from '@tanstack/react-query'
+import { RouterProvider } from '@tanstack/react-router'
+import { createQueryClient } from '@/services/QueryClient'
+import { createAppRouter } from '@/services/Router'
 
-export type RouterContext = {
-  queryClient: QueryClient
-}
+const queryClient = createQueryClient()
+const router = createAppRouter(queryClient)
 
-function stringifySearchValue(value: unknown) {
-  return Array.isArray(value) ? value.join(',') : JSON.stringify(value)
-}
-
-export function createAppRouter(queryClient: QueryClient) {
-  return createRouter({
-    routeTree,
-    context: { queryClient },
-    defaultPreload: 'intent',
-    defaultPreloadStaleTime: 0,
-    scrollRestoration: true,
-    parseSearch: parseSearchWith(JSON.parse),
-    stringifySearch: stringifySearchWith(stringifySearchValue),
-  })
-}
-
-declare module '@tanstack/react-router' {
-  interface Register {
-    router: ReturnType<typeof createAppRouter>
-  }
-
-  interface StaticDataRouteOption {
-    mobileBottomBar?: 'purchase'
-  }
+export function App() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
+  )
 }

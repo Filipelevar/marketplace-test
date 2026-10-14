@@ -1,12 +1,6 @@
 import { http, HttpResponse } from 'msw'
-import {
-  CATALOG_PAGE_SIZE,
-  catalogSearchSchema,
-  COLLECTIONS,
-  NETWORKS,
-  type FeaturedNftsResponse,
-  type NftListResponse,
-} from '@/contracts/nft'
+import { CATALOG_PAGE_SIZE, catalogSearchSchema, type FeaturedNftsResponse, type NftListResponse } from '@/types/nfts/NftTypes'
+import { COLLECTIONS, NETWORKS } from '@/enums/NftEnums'
 import { HERO_NFT_IDS, SPOTLIGHT_NFT_ID } from '@/mocks/fixtures/nfts'
 import { apiError } from '@/mocks/http'
 import { getDb } from '@/mocks/store/db'

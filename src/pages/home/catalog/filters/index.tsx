@@ -1,10 +1,11 @@
 import { useId } from 'react'
 import { Check } from 'lucide-react'
 import { cn } from 'cn'
-import { COLLECTIONS, NETWORKS, type CatalogSearch, type NftListResponse } from '@/contracts/nft'
+import { type CatalogSearch, type NftListResponse } from '@/types/nfts/NftTypes'
+import { COLLECTIONS, NETWORKS } from '@/enums/NftEnums'
 import { Skeleton } from '@/components/ui/skeleton'
-import { hasActiveFilters } from '../use-catalog-search'
-import { PriceFilter } from './price-filter'
+import { hasActiveFilters } from '@/hooks/useCatalogSearch'
+import { PriceFilter } from '@/pages/home/catalog/filters/price-filter'
 
 type FilterOptionProps = {
   label: string

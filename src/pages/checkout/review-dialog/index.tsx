@@ -1,11 +1,12 @@
 import { AlertTriangle, Loader2 } from 'lucide-react'
-import type { CheckoutQuote } from '@/contracts/checkout'
-import { shortAddress, WALLET_PROVIDERS, type WalletConnection } from '@/contracts/wallet'
+import type { CheckoutQuote } from '@/types/checkout/CheckoutTypes'
+import { shortAddress, type WalletConnection } from '@/types/wallets/WalletTypes'
+import { WALLET_PROVIDERS } from '@/enums/WalletEnums'
 import { Button } from '@/components/ui/button'
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from '@/components/ui/dialog'
-import { networkLabel } from '@/features/catalog/format'
-import { displayEth } from '@/lib/eth'
-import { OrderItems } from './order-items'
+import { networkLabel } from '@/utils/FormatUtils'
+import { displayEth } from '@/utils/EthUtils'
+import { OrderItems } from '@/components/order-items'
 
 type ReviewDialogProps = {
   open: boolean

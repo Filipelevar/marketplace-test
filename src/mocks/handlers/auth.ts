@@ -1,5 +1,5 @@
 import { http, HttpResponse } from 'msw'
-import { loginSchema, registerSchema, type CurrentSession } from '@/contracts/auth'
+import { loginSchema, registerSchema, type CurrentSession } from '@/types/auth/AuthTypes'
 import { authenticate, bearerToken, createSalt, hashPassword, startSession, toPublicUser, verifyPassword } from '@/mocks/auth'
 import type { UserRecord } from '@/mocks/fixtures/users'
 import { apiError, readJson, validationError } from '@/mocks/http'

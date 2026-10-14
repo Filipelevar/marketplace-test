@@ -1,5 +1,6 @@
-import { COLLECTIONS, NETWORKS, type CollectionSlug, type NetworkSlug } from '@/contracts/nft'
-import { parseEth, type EthString } from '@/lib/eth'
+import { type CollectionSlug, type NetworkSlug } from '@/types/nfts/NftTypes'
+import { COLLECTIONS, NETWORKS } from '@/enums/NftEnums'
+import { parseEth, type EthString } from '@/utils/EthUtils'
 
 const WEI_PER_HUNDREDTH = 10n ** 16n
 

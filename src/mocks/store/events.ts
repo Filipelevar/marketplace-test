@@ -1,5 +1,5 @@
 import type { NftRecord } from '@/mocks/fixtures/nfts'
-import type { OrderRecord } from './db'
+import type { OrderRecord } from '@/mocks/store/db'
 
 type NftListener = (nft: NftRecord) => void
 type OrderListener = (order: OrderRecord) => void

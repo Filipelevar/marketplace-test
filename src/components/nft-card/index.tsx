@@ -1,9 +1,9 @@
 import { Link } from '@tanstack/react-router'
 import { cn } from 'cn'
-import type { NftSummary } from '@/contracts/nft'
+import type { NftSummary } from '@/types/nfts/NftTypes'
 import { Skeleton } from '@/components/ui/skeleton'
-import { displayEth } from '@/lib/eth'
-import { NftCardActions } from './nft-card-actions'
+import { displayEth } from '@/utils/EthUtils'
+import { NftCardActions } from '@/components/nft-card/card-actions'
 
 type NftCardProps = {
   nft: NftSummary

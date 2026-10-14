@@ -1,5 +1,5 @@
 import { delay, http, HttpResponse } from 'msw'
-import type { ApiErrorCode } from '@/contracts/api-error'
+import type { ApiErrorCode } from '@/types/APITypes'
 import { apiError } from '@/mocks/http'
 import { readMockConfig } from '@/mocks/scenarios'
 

@@ -2,9 +2,9 @@ import { useEffect } from 'react'
 import { useQueryClient } from '@tanstack/react-query'
 import { useRouter } from '@tanstack/react-router'
 import { toast } from 'sonner'
-import { onSessionEvent } from '@/app/session-events'
-import { signOutLocally } from '../api'
-import { readStoredSession } from '../session-storage'
+import { onSessionEvent } from '@/services/interceptors/session-events'
+import { signOutLocally } from '@/hooks/useAuth'
+import { readStoredSession } from '@/stores/session-store'
 
 export function SessionWatcher() {
   const queryClient = useQueryClient()

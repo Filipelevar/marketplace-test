@@ -1,5 +1,5 @@
 import { http, HttpResponse } from 'msw'
-import { connectWalletSchema, walletInputSchema, type Wallet, type WalletConnection } from '@/contracts/wallet'
+import { connectWalletSchema, walletInputSchema, type Wallet, type WalletConnection } from '@/types/wallets/WalletTypes'
 import { authenticate } from '@/mocks/auth'
 import type { WalletRecord } from '@/mocks/fixtures/wallets'
 import { apiError, readJson, validationError } from '@/mocks/http'

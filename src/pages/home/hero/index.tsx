@@ -3,10 +3,10 @@ import { useQuery } from '@tanstack/react-query'
 import { Link } from '@tanstack/react-router'
 import { ArrowRight } from 'lucide-react'
 import { cn } from 'cn'
-import type { NftSummary } from '@/contracts/nft'
+import type { NftSummary } from '@/types/nfts/NftTypes'
 import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
-import { featuredNftsQuery } from '../api'
+import { featuredNftsQuery } from '@/hooks/useNfts'
 
 function SlideDots({ slides, active, onSelect }: { slides: NftSummary[]; active: number; onSelect: (index: number) => void }) {
   return (

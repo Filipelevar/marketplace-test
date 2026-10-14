@@ -1,8 +1,8 @@
-import type { CatalogSearch, NftDetail, NftSummary } from '@/contracts/nft'
-import { compareEth, formatEth, parseEth } from '@/lib/eth'
+import type { CatalogSearch, NftDetail, NftSummary } from '@/types/nfts/NftTypes'
+import { compareEth, formatEth, parseEth } from '@/utils/EthUtils'
 import type { NftRecord } from '@/mocks/fixtures/nfts'
-import { commit, getDb } from './db'
-import { notifyNftChanged } from './events'
+import { commit, getDb } from '@/mocks/store/db'
+import { notifyNftChanged } from '@/mocks/store/events'
 
 export type NftPatch = {
   priceEth?: string

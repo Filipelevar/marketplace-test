@@ -1,12 +1,12 @@
 import { isAxiosError } from 'axios'
-import { getApiError } from '@/lib/api-error'
-import { http } from '@/lib/http'
-import { readStoredSession } from '@/features/auth/session-storage'
-import { readGuestCartId } from '@/features/cart/cart-id-storage'
-import { emitSessionEvent } from './session-events'
+import { getApiError } from '@/utils/ApiErrorUtils'
+import { API } from '@/services/api'
+import { readStoredSession } from '@/stores/session-store'
+import { readGuestCartId } from '@/stores/guest-cart-store'
+import { emitSessionEvent } from '@/services/interceptors/session-events'
 
 export function installHttpInterceptors() {
-  http.interceptors.request.use((config) => {
+  API.interceptors.request.use((config) => {
     const session = readStoredSession()
     if (session) config.headers.set('Authorization', `Bearer ${session.token}`)
     const cartId = readGuestCartId()
@@ -14,7 +14,7 @@ export function installHttpInterceptors() {
     return config
   })
 
-  http.interceptors.response.use(undefined, (error: unknown) => {
+  API.interceptors.response.use(undefined, (error: unknown) => {
     if (isAxiosError(error) && error.config?.headers.get('Authorization')) {
       const code = getApiError(error)?.code
       if (code === 'SESSION_EXPIRED' || code === 'UNAUTHORIZED') emitSessionEvent({ type: 'expired' })

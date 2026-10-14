@@ -1,7 +1,7 @@
-import type { NftDetail } from '@/contracts/nft'
+import type { NftDetail } from '@/types/nfts/NftTypes'
 import { RatingStars } from '@/components/rating-stars'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { networkLabel } from '@/features/catalog/format'
+import { networkLabel } from '@/utils/FormatUtils'
 
 const dateFormatter = new Intl.DateTimeFormat('pt-BR', { day: '2-digit', month: 'short', year: 'numeric' })
 

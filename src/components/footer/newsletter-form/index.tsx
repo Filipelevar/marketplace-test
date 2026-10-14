@@ -1,9 +1,9 @@
 import { useId } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { newsletterSubscriptionSchema, type NewsletterSubscriptionInput } from '@/contracts/newsletter'
-import { getApiError, getApiErrorMessage } from '@/lib/api-error'
-import { useSubscribeToNewsletter } from './api'
+import { newsletterSubscriptionSchema, type NewsletterSubscriptionInput } from '@/types/newsletter/NewsletterTypes'
+import { getApiError, getApiErrorMessage } from '@/utils/ApiErrorUtils'
+import { useSubscribeToNewsletter } from '@/hooks/useNewsletter'
 
 export function NewsletterForm() {
   const inputId = useId()

@@ -1,6 +1,6 @@
 import { useLocation, useNavigate } from '@tanstack/react-router'
 import { toast } from 'sonner'
-import { useSession } from './api'
+import { useSession } from '@/hooks/useAuth'
 
 export function useRequireAuth() {
   const session = useSession()

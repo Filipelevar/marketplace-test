@@ -3,10 +3,10 @@ import { Link, useLocation } from '@tanstack/react-router'
 import { LogIn, ShoppingCart, UserRound } from 'lucide-react'
 import { cn } from 'cn'
 import { Button } from '@/components/ui/button'
-import { useSession } from '@/features/auth/api'
-import { cartLabel, useCartCount } from '@/features/cart/cart-count'
-import { CartBadge } from './cart-badge'
-import { HeaderSearch } from './header-search'
+import { useSession } from '@/hooks/useAuth'
+import { cartLabel, useCartCount } from '@/hooks/useCartCount'
+import { CartBadge } from '@/components/cart-badge'
+import { HeaderSearch } from '@/components/navbar/search-dialog'
 
 const MARKET_PATHS = ['/nfts', '/carrinho', '/pagamento']
 

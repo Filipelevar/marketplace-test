@@ -1,8 +1,8 @@
 import { useNavigate } from '@tanstack/react-router'
 import { toast } from 'sonner'
-import type { AddCartItemInput } from '@/contracts/cart'
-import { getApiErrorMessage } from '@/lib/api-error'
-import { useAddToCart } from './api'
+import type { AddCartItemInput } from '@/types/cart/CartTypes'
+import { getApiErrorMessage } from '@/utils/ApiErrorUtils'
+import { useAddToCart } from '@/hooks/useCart'
 
 export function useAddToCartWithFeedback() {
   const addToCart = useAddToCart()

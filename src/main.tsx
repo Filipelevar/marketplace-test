@@ -1,11 +1,7 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { QueryClientProvider } from '@tanstack/react-query'
-import { RouterProvider } from '@tanstack/react-router'
-import { installHttpInterceptors } from '@/app/http-interceptors'
-import { createQueryClient } from '@/app/query-client'
-import { createAppRouter } from '@/app/router'
-import './index.css'
+import { installHttpInterceptors } from '@/services/interceptors/auth-interceptor'
+import '@/globals/index.css'
 
 installHttpInterceptors()
 
@@ -15,18 +11,15 @@ async function enableMocking() {
   await startMockWorker()
 }
 
-const queryClient = createQueryClient()
-const router = createAppRouter(queryClient)
-
 const rootElement = document.getElementById('root')
 if (!rootElement) throw new Error('Root element #root not found')
 
 await enableMocking()
 
+const { App } = await import('@/App')
+
 createRoot(rootElement).render(
   <StrictMode>
-    <QueryClientProvider client={queryClient}>
-      <RouterProvider router={router} />
-    </QueryClientProvider>
+    <App />
   </StrictMode>,
 )

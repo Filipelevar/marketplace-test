@@ -1,4 +1,4 @@
-import { MAX_QUANTITY_PER_ORDER, type NftEdition } from '@/contracts/nft'
+import { MAX_QUANTITY_PER_ORDER, type NftEdition } from '@/types/nfts/NftTypes'
 
 const PREFERRED_EDITION_ID = '1-50'
 

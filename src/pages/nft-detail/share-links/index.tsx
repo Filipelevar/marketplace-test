@@ -1,5 +1,5 @@
 import { Mail } from 'lucide-react'
-import { LinkedinIcon, TwitterIcon } from '@/components/icons/social-icons'
+import { LinkedinIcon, TwitterIcon } from '@/components/icons'
 
 export function ShareLinks({ name }: { name: string }) {
   const url = typeof window === 'undefined' ? '' : window.location.href.split('?')[0] ?? ''

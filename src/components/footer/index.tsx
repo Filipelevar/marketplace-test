@@ -7,10 +7,10 @@ import {
   LinkedinIcon,
   TwitterIcon,
   YoutubeIcon,
-} from '@/components/icons/social-icons'
+} from '@/components/icons'
 import { cn } from 'cn'
-import { NewsletterForm } from '@/features/newsletter/newsletter-form'
-import { useMobileBottomBar } from './use-mobile-bottom-bar'
+import { NewsletterForm } from '@/components/footer/newsletter-form'
+import { useMobileBottomBar } from '@/hooks/useMobileBottomBar'
 
 const SOCIAL_LINKS = [
   { label: 'Facebook', href: 'https://www.facebook.com', icon: FacebookIcon },

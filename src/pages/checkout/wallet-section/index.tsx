@@ -2,11 +2,12 @@ import { useId } from 'react'
 import type { FieldErrors, UseFormRegister } from 'react-hook-form'
 import { CheckCircle2, Unplug } from 'lucide-react'
 import { cn } from 'cn'
-import { NETWORKS } from '@/contracts/nft'
-import { shortAddress, WALLET_PROVIDERS, type Wallet, type WalletConnection } from '@/contracts/wallet'
+import { NETWORKS } from '@/enums/NftEnums'
+import { shortAddress, type Wallet, type WalletConnection } from '@/types/wallets/WalletTypes'
+import { WALLET_PROVIDERS } from '@/enums/WalletEnums'
 import { Button } from '@/components/ui/button'
-import { networkLabel } from '@/features/catalog/format'
-import type { CheckoutFormValues } from '../form-schema'
+import { networkLabel } from '@/utils/FormatUtils'
+import type { CheckoutFormValues } from '@/pages/checkout/schema'
 
 const providerLabel = (slug: string) => WALLET_PROVIDERS.find((provider) => provider.slug === slug)?.label ?? slug
 

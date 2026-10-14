@@ -1,7 +1,7 @@
 import { setupWorker } from 'msw/browser'
 import { isScenarioId, readMockConfig, writeMockConfig } from '@/mocks/scenarios'
 import { resetDb } from '@/mocks/store/db'
-import { handlers } from './handlers'
+import { handlers } from '@/mocks/handlers'
 
 export const worker = setupWorker(...handlers)
 

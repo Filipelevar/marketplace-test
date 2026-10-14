@@ -1,5 +1,5 @@
 import { http, HttpResponse } from 'msw'
-import { newsletterSubscriptionSchema, type NewsletterSubscription } from '@/contracts/newsletter'
+import { newsletterSubscriptionSchema, type NewsletterSubscription } from '@/types/newsletter/NewsletterTypes'
 import { readJson, validationError } from '@/mocks/http'
 
 const subscribers = new Set<string>()

@@ -1,6 +1,6 @@
 import { HttpResponse } from 'msw'
 import type { z } from 'zod'
-import type { ApiErrorBody, ApiErrorCode } from '@/contracts/api-error'
+import type { ApiErrorBody, ApiErrorCode } from '@/types/APITypes'
 
 const STATUS_BY_CODE: Record<ApiErrorCode, number> = {
   VALIDATION_ERROR: 422,

@@ -3,11 +3,11 @@ import { Link } from '@tanstack/react-router'
 import { X } from 'lucide-react'
 import { toast } from 'sonner'
 import { cn } from 'cn'
-import type { Cart } from '@/contracts/cart'
+import type { Cart } from '@/types/cart/CartTypes'
 import { Button } from '@/components/ui/button'
-import { getApiErrorMessage } from '@/lib/api-error'
-import { displayEth } from '@/lib/eth'
-import { useApplyCoupon, useRemoveCoupon } from '../api'
+import { getApiErrorMessage } from '@/utils/ApiErrorUtils'
+import { displayEth } from '@/utils/EthUtils'
+import { useApplyCoupon, useRemoveCoupon } from '@/hooks/useCart'
 
 function CouponForm({ cart }: { cart: Cart }) {
   const inputId = useId()

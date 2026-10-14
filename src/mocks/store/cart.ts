@@ -1,8 +1,8 @@
-import { NETWORK_FEE_ETH, type AppliedCoupon, type Cart, type CartItem } from '@/contracts/cart'
-import { MAX_QUANTITY_PER_ORDER } from '@/contracts/nft'
-import { formatEth, multiplyEth, parseEth } from '@/lib/eth'
+import { NETWORK_FEE_ETH, type AppliedCoupon, type Cart, type CartItem } from '@/types/cart/CartTypes'
+import { MAX_QUANTITY_PER_ORDER } from '@/types/nfts/NftTypes'
+import { formatEth, multiplyEth, parseEth } from '@/utils/EthUtils'
 import type { UserRecord } from '@/mocks/fixtures/users'
-import { commit, getDb, type CartRecord } from './db'
+import { commit, getDb, type CartRecord } from '@/mocks/store/db'
 
 export const CART_ID_HEADER = 'X-Cart-Id'
 
