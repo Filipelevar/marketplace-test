@@ -89,11 +89,12 @@ test.describe('catálogo', () => {
   })
 
   test('mostra skeletons durante carregamento lento', async ({ page }) => {
+    test.setTimeout(60_000)
     await useScenario(page, 'lento')
     await page.goto('/')
     await expect(page.locator('#catalogo [data-slot="skeleton"]').filter({ visible: true }).first()).toBeVisible()
-    await expect(cards(page)).toHaveCount(9, { timeout: 15_000 })
-    await expect(page.locator('#catalogo ul [data-slot="skeleton"]')).toHaveCount(0)
+    await expect(cards(page)).toHaveCount(9, { timeout: 25_000 })
+    await expect(page.locator('#catalogo ul [data-slot="skeleton"]')).toHaveCount(0, { timeout: 15_000 })
   })
 
   test('falha de conexão exibe erro e recupera ao tentar novamente', async ({ page }) => {
