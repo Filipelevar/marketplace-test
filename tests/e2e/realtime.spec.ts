@@ -9,6 +9,7 @@ const cardPrice = (page: Page, name: string) =>
 async function buyNow(page: Page, nftPath: string) {
   await signIn(page, USERS.ana, nftPath)
   await page.getByRole('button', { name: /^(COMPRAR|Comprar NFT)$/ }).filter({ visible: true }).first().click()
+  await expect(page).toHaveURL(/\/carrinho/)
   await page.goto('/pagamento')
   await page.getByRole('button', { name: 'Conectar carteira' }).click()
   await expect(page.getByText(/Conectada via MetaMask/)).toBeVisible()
