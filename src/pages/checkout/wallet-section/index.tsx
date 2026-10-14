@@ -1,5 +1,6 @@
 import { useId } from 'react'
 import type { FieldErrors, UseFormRegister } from 'react-hook-form'
+import { Link } from '@tanstack/react-router'
 import { CheckCircle2, Unplug } from 'lucide-react'
 import { cn } from 'cn'
 import { NETWORKS } from '@/enums/NftEnums'
@@ -33,7 +34,11 @@ export function WalletList({ wallets, register, errors }: Pick<WalletSectionProp
       </legend>
       {wallets.length === 0 && (
         <p className="rounded-2xl bg-card p-4 text-sm text-muted-foreground">
-          Você ainda não tem carteiras cadastradas. Cadastre uma carteira principal no seu perfil para concluir a compra.
+          Você ainda não tem carteiras cadastradas.{' '}
+          <Link to="/carteiras" className="font-bold text-highlight underline-offset-4 hover:underline">
+            Cadastre uma carteira principal
+          </Link>{' '}
+          para concluir a compra.
         </p>
       )}
       {wallets.map((wallet) => (

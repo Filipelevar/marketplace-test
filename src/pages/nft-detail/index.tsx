@@ -141,7 +141,7 @@ function NftDetailContent({ nftId }: { nftId: string }) {
       <div className="page-container flex flex-col gap-3 lg:pt-8">
         <Breadcrumb />
         <div className="flex flex-col lg:flex-row lg:gap-8">
-          <div className="relative -mx-4 sm:-mx-6 lg:mx-0">
+          <div className="relative -mx-4 sm:mx-auto sm:w-full sm:max-w-[520px] lg:mx-0 lg:max-w-none">
             <MobileImageActions nft={nft} />
             <NftGallery name={nft.name} images={nft.gallery} />
           </div>

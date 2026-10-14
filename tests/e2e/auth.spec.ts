@@ -30,7 +30,7 @@ test.describe('conta e sessão', () => {
 
     await page.reload()
     await page.goto('/perfil')
-    await expect(page.getByText('nova@kurio.dev')).toBeVisible()
+    await expect(page.getByLabel('E-mail', { exact: true })).toHaveValue('nova@kurio.dev')
   })
 
   test('login com credenciais inválidas e retorno ao fluxo anterior', async ({ page }) => {

@@ -72,7 +72,11 @@ export function SiteHeader() {
           {session.status === 'authenticated' ? (
             <Button asChild size="sm" variant="outline" className="h-[35px] max-w-36 gap-1 px-2.5 text-base font-medium">
               <Link to="/perfil" aria-label={`Meu perfil (${session.user.displayName})`}>
-                <UserRound aria-hidden />
+                {session.user.avatarUrl ? (
+                  <img src={session.user.avatarUrl} alt="" width={20} height={20} className="size-5 rounded-full object-cover" />
+                ) : (
+                  <UserRound aria-hidden />
+                )}
                 <span className="truncate">{session.user.displayName.split(' ')[0]}</span>
               </Link>
             </Button>

@@ -1,29 +1,31 @@
-import { useNavigate } from '@tanstack/react-router'
-import { LogOut } from 'lucide-react'
-import { Button } from '@/components/ui/button'
-import { useLogout, useSession } from '@/hooks/useAuth'
+import { Skeleton } from '@/components/ui/skeleton'
+import { useSession } from '@/hooks/useAuth'
+import { PasswordForm } from '@/pages/account/profile/password-form'
+import { ProfileForm } from '@/pages/account/profile/profile-form'
 
 export function ProfilePage() {
   const session = useSession()
-  const logout = useLogout()
-  const navigate = useNavigate()
 
-  function signOut() {
-    logout.mutate(undefined, { onSettled: () => void navigate({ to: '/' }) })
+  if (session.status !== 'authenticated') {
+    return (
+      <div aria-busy className="flex flex-col gap-6">
+        <span role="status" className="sr-only">
+          Carregando perfil
+        </span>
+        <Skeleton className="h-6 w-56" />
+        <div className="grid gap-6 lg:grid-cols-2">
+          {Array.from({ length: 6 }, (_, index) => (
+            <Skeleton key={index} className="h-16 w-full" />
+          ))}
+        </div>
+      </div>
+    )
   }
 
   return (
-    <section className="page-container flex flex-col gap-6 py-12">
-      <h1 className="text-2xl font-bold">Perfil do colecionador</h1>
-      {session.user && (
-        <p className="text-muted-foreground">
-          Conectado como <strong className="text-foreground">{session.user.displayName}</strong> ({session.user.email})
-        </p>
-      )}
-      <Button variant="outline" onClick={signOut} disabled={logout.isPending} className="w-fit">
-        <LogOut aria-hidden />
-        Sair
-      </Button>
-    </section>
+    <div className="flex flex-col gap-12">
+      <ProfileForm key={session.user.id} user={session.user} />
+      <PasswordForm />
+    </div>
   )
 }

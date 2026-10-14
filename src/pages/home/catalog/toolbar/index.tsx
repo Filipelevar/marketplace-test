@@ -40,7 +40,9 @@ export function CatalogToolbar({ search, onChange }: CatalogToolbarProps) {
       </div>
 
       <div className="flex items-center gap-1 text-[15px]">
-        <span id={sortLabelId}>Ordenar por:</span>
+        <span id={sortLabelId} className="whitespace-nowrap">
+          Ordenar por:
+        </span>
         <Select
           value={search.sort ?? 'recentes'}
           onValueChange={(value) => {

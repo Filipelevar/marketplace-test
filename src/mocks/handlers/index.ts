@@ -9,6 +9,7 @@ import { favoriteHandlers } from '@/mocks/handlers/favorites'
 import { networkHandlers } from '@/mocks/handlers/network'
 import { newsletterHandlers } from '@/mocks/handlers/newsletter'
 import { nftHandlers } from '@/mocks/handlers/nfts'
+import { profileHandlers } from '@/mocks/handlers/profile'
 import { walletHandlers } from '@/mocks/handlers/wallets'
 
 export const handlers = [
@@ -17,6 +18,7 @@ export const handlers = [
   ...networkHandlers,
   ...newsletterHandlers,
   ...authHandlers,
+  ...profileHandlers,
   ...nftHandlers,
   ...favoriteHandlers,
   ...cartHandlers,

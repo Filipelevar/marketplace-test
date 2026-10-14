@@ -9,12 +9,12 @@ export function FavoritesPage() {
   const { data, isPending, isError, error, refetch } = useFavorites()
 
   return (
-    <section aria-labelledby="favoritos-titulo" className="page-container flex flex-col gap-8 py-8 lg:py-12">
-      <h1 id="favoritos-titulo" className="text-2xl font-bold">
+    <section aria-labelledby="favoritos-titulo" className="flex flex-col gap-8">
+      <h1 id="favoritos-titulo" className="text-lg font-bold">
         Lista de interesse
       </h1>
       {isPending ? (
-        <ul aria-hidden className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4 lg:gap-8">
+        <ul aria-hidden className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:gap-8">
           {Array.from({ length: 4 }, (_, index) => (
             <li key={index}>
               <NftCardSkeleton />
@@ -39,7 +39,7 @@ export function FavoritesPage() {
           </Button>
         </div>
       ) : (
-        <ul className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 lg:grid-cols-4 lg:gap-8">
+        <ul className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-3 lg:gap-8">
           {data.items.map((nft) => (
             <li key={nft.id}>
               <NftCard nft={nft} />
