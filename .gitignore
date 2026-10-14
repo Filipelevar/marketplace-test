@@ -30,3 +30,5 @@ playwright/.cache/
 !.yarn/releases
 !.yarn/plugins
 .pnp.*
+
+reports/lighthouse/runs/

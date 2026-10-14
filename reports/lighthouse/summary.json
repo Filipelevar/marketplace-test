@@ -1,0 +1,202 @@
+{
+  "generatedAt": "2026-10-14T20:10:31.393Z",
+  "runsPerPage": 3,
+  "results": [
+    {
+      "page": "inicio",
+      "path": "/",
+      "formFactor": "mobile",
+      "runs": [
+        {
+          "performance": 69,
+          "accessibility": 100,
+          "bestPractices": 100,
+          "seo": 100,
+          "lcp": 5099,
+          "cls": 0.026,
+          "tbt": 185
+        },
+        {
+          "performance": 70,
+          "accessibility": 100,
+          "bestPractices": 100,
+          "seo": 100,
+          "lcp": 5084,
+          "cls": 0.026,
+          "tbt": 177
+        },
+        {
+          "performance": 70,
+          "accessibility": 100,
+          "bestPractices": 100,
+          "seo": 100,
+          "lcp": 5092,
+          "cls": 0.026,
+          "tbt": 179
+        }
+      ],
+      "median": {
+        "performance": 70,
+        "accessibility": 100,
+        "bestPractices": 100,
+        "seo": 100,
+        "lcp": 5092,
+        "cls": 0.026,
+        "tbt": 179
+      },
+      "budget": {
+        "lcp": 2500,
+        "cls": 0.1,
+        "tbt": 200
+      },
+      "withinBudget": false
+    },
+    {
+      "page": "inicio",
+      "path": "/",
+      "formFactor": "desktop",
+      "runs": [
+        {
+          "performance": 97,
+          "accessibility": 100,
+          "bestPractices": 100,
+          "seo": 100,
+          "lcp": 1143,
+          "cls": 0.005,
+          "tbt": 2
+        },
+        {
+          "performance": 97,
+          "accessibility": 100,
+          "bestPractices": 100,
+          "seo": 100,
+          "lcp": 1159,
+          "cls": 0.005,
+          "tbt": 8
+        },
+        {
+          "performance": 97,
+          "accessibility": 100,
+          "bestPractices": 100,
+          "seo": 100,
+          "lcp": 1142,
+          "cls": 0.005,
+          "tbt": 5
+        }
+      ],
+      "median": {
+        "performance": 97,
+        "accessibility": 100,
+        "bestPractices": 100,
+        "seo": 100,
+        "lcp": 1143,
+        "cls": 0.005,
+        "tbt": 5
+      },
+      "budget": {
+        "lcp": 2500,
+        "cls": 0.1,
+        "tbt": 200
+      },
+      "withinBudget": true
+    },
+    {
+      "page": "detalhe",
+      "path": "/nfts/emerald-ape-042",
+      "formFactor": "mobile",
+      "runs": [
+        {
+          "performance": 68,
+          "accessibility": 100,
+          "bestPractices": 100,
+          "seo": 100,
+          "lcp": 5126,
+          "cls": 0,
+          "tbt": 216
+        },
+        {
+          "performance": 68,
+          "accessibility": 100,
+          "bestPractices": 100,
+          "seo": 100,
+          "lcp": 5085,
+          "cls": 0,
+          "tbt": 220
+        },
+        {
+          "performance": 67,
+          "accessibility": 100,
+          "bestPractices": 100,
+          "seo": 100,
+          "lcp": 5076,
+          "cls": 0,
+          "tbt": 241
+        }
+      ],
+      "median": {
+        "performance": 68,
+        "accessibility": 100,
+        "bestPractices": 100,
+        "seo": 100,
+        "lcp": 5085,
+        "cls": 0,
+        "tbt": 220
+      },
+      "budget": {
+        "lcp": 2500,
+        "cls": 0.1,
+        "tbt": 200
+      },
+      "withinBudget": false
+    },
+    {
+      "page": "detalhe",
+      "path": "/nfts/emerald-ape-042",
+      "formFactor": "desktop",
+      "runs": [
+        {
+          "performance": 97,
+          "accessibility": 100,
+          "bestPractices": 100,
+          "seo": 100,
+          "lcp": 1133,
+          "cls": 0,
+          "tbt": 0
+        },
+        {
+          "performance": 97,
+          "accessibility": 100,
+          "bestPractices": 100,
+          "seo": 100,
+          "lcp": 1119,
+          "cls": 0,
+          "tbt": 0
+        },
+        {
+          "performance": 97,
+          "accessibility": 100,
+          "bestPractices": 100,
+          "seo": 100,
+          "lcp": 1121,
+          "cls": 0,
+          "tbt": 0
+        }
+      ],
+      "median": {
+        "performance": 97,
+        "accessibility": 100,
+        "bestPractices": 100,
+        "seo": 100,
+        "lcp": 1121,
+        "cls": 0,
+        "tbt": 0
+      },
+      "budget": {
+        "lcp": 2500,
+        "cls": 0.1,
+        "tbt": 200
+      },
+      "withinBudget": true
+    }
+  ]
+}
