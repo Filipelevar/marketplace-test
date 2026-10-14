@@ -105,6 +105,8 @@ São 90 testes (45 cenários × desktop e Pixel 7). O Playwright faz o build e s
 $env:PW_BASE_URL="https://marketplace-test-ebon.vercel.app"; yarn test:e2e
 ```
 
+Contra uma URL remota, a suíte usa 2 workers, 1 retry e timeouts maiores, porque a latência é de rede real: logo após um deploy, a CDN pode demorar vários segundos para servir arquivos ainda fora do cache. Localmente continuam 4 workers, sem retry.
+
 ### Regressão visual
 
 ```bash
