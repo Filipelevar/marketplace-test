@@ -34,7 +34,7 @@ export function EditionPicker({ nftId, editions, selectedId, onSelect }: Edition
                   'flex h-7 cursor-pointer items-center rounded-full border border-border-soft px-2 text-sm text-muted-foreground transition-colors hover:border-primary',
                   'peer-checked:border-primary peer-checked:font-medium peer-checked:text-highlight',
                   'peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-ring',
-                  soldOut && 'line-through opacity-60',
+                  soldOut && 'cursor-not-allowed text-disabled-foreground line-through hover:border-border-soft',
                 )}
               >
                 {editionLabel(edition)}

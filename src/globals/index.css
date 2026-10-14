@@ -33,6 +33,7 @@
   --color-subtle: var(--subtle);
   --color-border: var(--border);
   --color-border-soft: var(--border-soft);
+  --color-disabled-foreground: var(--disabled-foreground);
   --color-input: var(--input);
   --color-ring: var(--ring);
 
@@ -79,6 +80,7 @@
   --subtle: #b39463;
   --border: #3f2319;
   --border-soft: #55321f;
+  --disabled-foreground: #937e66;
   --input: #55321f;
   --ring: #d28a4c;
 

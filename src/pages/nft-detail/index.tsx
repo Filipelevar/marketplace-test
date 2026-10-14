@@ -61,7 +61,7 @@ function MobileImageActions({ nft }: { nft: NftSummary }) {
 
 function NftDetailSkeleton() {
   return (
-    <div aria-busy className="page-container flex flex-col gap-8 py-6 lg:flex-row lg:pt-14">
+    <div aria-busy className="page-container flex min-h-dvh flex-col gap-8 py-6 lg:flex-row lg:pt-14">
       <span className="sr-only" role="status">
         Carregando NFT
       </span>
